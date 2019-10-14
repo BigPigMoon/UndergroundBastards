@@ -14,6 +14,7 @@ class Player():
     def draw(self):
         terminal.layer(1)
         terminal.put(self.x, self.y, '@')
+        terminal.layer(0)
 
     def move(self, direct):
         if direct == "up":

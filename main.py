@@ -4,57 +4,37 @@ import random
 from bearlibterminal import terminal
 
 import Player
+import KeyFunc as kf
 
 
-def clear(x, y):
-    for layer in range(1, 10):
-        terminal.layer(layer)
-        terminal.put(x, y, ' ')
-
-
-def key_event(player):
-    readkey = terminal.read()
-
-    if readkey == terminal.TK_K or readkey == terminal.TK_UP:
-        # Up
-        player.move("up")
-    if readkey == terminal.TK_J or readkey == terminal.TK_DOWN:
-        # Down
-        player.move("down")
-    if readkey == terminal.TK_H or readkey == terminal.TK_LEFT:
-        # Left
-        player.move("left")
-    if readkey == terminal.TK_L or readkey == terminal.TK_RIGHT:
-        # Right
-        player.move("right")
-
-    if readkey == terminal.TK_CLOSE or readkey == terminal.TK_ESCAPE:
-        sys.exit()
-
-
-def main():
+def init():
     terminal.open()
     terminal.refresh()
     terminal.set('GameSettings.ini')
 
-    player = Player.Player(5, 5)
 
-    terminal.layer(0)
+def main():
+    init()
+    player = Player.Player(5, 5)
+    count_celler = 0
+    
     terminal.printf(1, 1, "hello")
     terminal.printf(5, 2, "world!")
     terminal.printf(1, 3, "Привет")
     terminal.printf(6, 4, "Мир!")
+    terminal.printf(0, 49, "Ход: ")
 
     while True:
         player.draw()
+        terminal.printf(5, 49, str(count_celler))
         if terminal.has_input():
             player.clear()
             try:
-                key_event(player)
+                kf.key_event(player)
+                count_celler += 1
             except TypeError:
                 pass
         terminal.refresh()
-
     terminal.close()
 
 
