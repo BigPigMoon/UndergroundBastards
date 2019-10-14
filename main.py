@@ -1,49 +1,56 @@
 import sys
+import random
 
 from bearlibterminal import terminal
 
+import Player
 
-def key_event(x, y):
+
+def clear(x, y):
+    for layer in range(1, 10):
+        terminal.layer(layer)
+        terminal.put(x, y, ' ')
+
+
+def key_event(player):
     readkey = terminal.read()
 
     if readkey == terminal.TK_K or readkey == terminal.TK_UP:
         # Up
-        terminal.put(x, y, ' ')
-        return x, y - 1
+        player.move("up")
     if readkey == terminal.TK_J or readkey == terminal.TK_DOWN:
         # Down
-        terminal.put(x, y, ' ')
-        return x, y + 1
+        player.move("down")
     if readkey == terminal.TK_H or readkey == terminal.TK_LEFT:
         # Left
-        terminal.put(x, y, ' ')
-        return x - 1, y
+        player.move("left")
     if readkey == terminal.TK_L or readkey == terminal.TK_RIGHT:
         # Right
-        terminal.put(x, y, ' ')
-        return x + 1, y
+        player.move("right")
 
     if readkey == terminal.TK_CLOSE or readkey == terminal.TK_ESCAPE:
         sys.exit()
 
 
 def main():
-    x = 5
-    y = 5
     terminal.open()
     terminal.refresh()
-    
-    if not terminal.set('game.ini'):
-        print("set don't set")
+    terminal.set('GameSettings.ini')
 
+    player = Player.Player(5, 5)
+
+    terminal.layer(0)
     terminal.printf(1, 1, "hello")
-    terminal.printf(6, 2, "world!")
+    terminal.printf(5, 2, "world!")
+    terminal.printf(1, 3, "Привет")
+    terminal.printf(6, 4, "Мир!")
 
     while True:
-        terminal.printf(x, y, "@")
+        player.draw()
         if terminal.has_input():
+            player.clear()
             try:
-                x, y = key_event(x, y)
+                key_event(player)
             except TypeError:
                 pass
         terminal.refresh()
