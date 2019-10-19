@@ -14,6 +14,8 @@ def print_level(level):
         for x in range(50):
             if level[x][y].block:
                 terminal.put(dx, dy, '#')
+            else:
+                terminal.put(dx, dy, '.')
             dx += 1
         dx = 30
         dy += 1
