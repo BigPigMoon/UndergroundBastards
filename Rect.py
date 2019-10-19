@@ -18,7 +18,7 @@ class Rect:
         return (self.x1 <= other.x2 and self.x2 >= other.x1 and
                 self.y1 <= other.y2 and self.y2 >= other.y1)
 
-    def center(self):
+    def get_center(self):
         """Определение центров прямоугольника(комнаты)."""
         center_x = (self.x1 + self.x2) // 2
         center_y = (self.y1 + self.y2) // 2
@@ -26,6 +26,6 @@ class Rect:
 
     def get_random_dot(self):
         """Выбирает случайную точку в комнате."""
-        random_x = random.randint(self.x1, self.x2)
-        random_y = random.randint(self.y1, self.y2)
+        random_x = random.randint(self.x1 + 1, self.x2 - 1)
+        random_y = random.randint(self.y1 + 1, self.y2 - 1)
         return random_x, random_y
