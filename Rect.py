@@ -24,7 +24,7 @@ class Rect:
         center_y = (self.y1 + self.y2) // 2
         return (center_x, center_y)
 
-    def choise_random_dot(self):
+    def get_random_dot(self):
         """Выбирает случайную точку в комнате."""
         random_x = random.randint(self.x1, self.x2)
         random_y = random.randint(self.y1, self.y2)

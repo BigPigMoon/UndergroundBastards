@@ -7,18 +7,28 @@ import Player
 import KeyFunc as kf
 import GenLevel
 
+color = {
+    "black" : terminal.color_from_argb(255, 0, 0, 0),
+    "white" : terminal.color_from_argb(255, 255, 255, 255),
+    "wall" : terminal.color_from_argb(60, 50, 47, 250),
+    "flor" : terminal.color_from_argb(255, 50, 47, 250)
+}
+
 
 def print_level(level):
     dx, dy = 30, 0
     for y in range(50):
         for x in range(50):
             if level[x][y].block:
-                terminal.put(dx, dy, '#')
+                terminal.bkcolor(color["wall"])
+                terminal.put(dx, dy, ' ')
             else:
+                terminal.bkcolor(color["flor"])
                 terminal.put(dx, dy, '.')
             dx += 1
         dx = 30
         dy += 1
+    terminal.bkcolor(color["black"])
 
 
 def init():
@@ -49,6 +59,7 @@ def main():
 
     while True:
         player.draw()
+        terminal.bkcolor(color["black"])
         terminal.printf(5, 49, str(count_celler))
         if terminal.has_input():
             player.clear()
