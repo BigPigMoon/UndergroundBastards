@@ -4,6 +4,7 @@ from bearlibterminal import terminal
 
 
 def key_event(player, level):
+    """Обработка клавиш."""
     readkey = terminal.read()
 
     if readkey == terminal.TK_K or readkey == terminal.TK_UP:

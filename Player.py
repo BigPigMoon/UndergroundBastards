@@ -42,6 +42,7 @@ class Player():
     
     
     def draw_status(self):
+        """Отображение состояния игрока."""
         nutration_max = int(self.nutrition//10 + 1)
         hp_max = int(self.hp//10 + 1)
 

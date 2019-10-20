@@ -29,6 +29,7 @@ def gen_level():
 
 
 def create_room():
+    """Создает комнату с рандомными координатами и размерами."""
     room_width_min = room_height_min = 5
     room_width_max = room_height_max = 10
 
@@ -41,6 +42,7 @@ def create_room():
 
 
 def gen_tonel(room_one, rome_two, level):
+    """Создает тонель."""
     x1, y1 = room_one.get_random_dot()
     x2, y2 = rome_two.get_random_dot()
 

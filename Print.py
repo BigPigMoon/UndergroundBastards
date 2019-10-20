@@ -3,6 +3,7 @@ from Color import color
 
 
 def print_level(level):
+    """Отображает уровень."""
     dx, dy = 15, 0
     for y in range(50):
         for x in range(50):
@@ -19,6 +20,7 @@ def print_level(level):
 
 
 def print_hud(player):
+    """Отоброжает ХУД."""
     terminal.layer(0)
     terminal.printf(2, 0, player.name)
     terminal.printf(2, 2, "Здоровье:")
