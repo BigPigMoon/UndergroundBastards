@@ -19,8 +19,8 @@ def init():
 
 def main():
     init()
-    level, room = GenLevel.gen_level()
-    player = Player.Player(*room.get_center())
+    level, rooms = GenLevel.gen_level()
+    player = Player.Player(*rooms[0].get_center())
     player.x += 15
     player.name = "BigPigMoon"
     count_celler = 0

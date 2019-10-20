@@ -25,7 +25,7 @@ def gen_level():
         gen_tonel(prev_room, next_room, level)
         prev_room = next_room
 
-    return level, rooms[0]
+    return level, rooms
 
 
 def create_room():
