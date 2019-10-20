@@ -18,7 +18,7 @@ def print_level(level):
     terminal.bkcolor(color["black"])
 
 
-def print_init(player):
+def print_hud(player):
     terminal.layer(0)
     terminal.printf(2, 0, player.name)
     terminal.printf(2, 2, "Здоровье:")

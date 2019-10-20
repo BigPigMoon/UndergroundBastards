@@ -25,7 +25,7 @@ def main():
     player.name = "BigPigMoon"
     count_celler = 0
     
-    print_init(player)
+    print_hud(player)
     player.draw_status()
     print_level(level)
 
@@ -47,5 +47,5 @@ def main():
 
         terminal.refresh()
 
-
-main()
+if __name__ == "__main__":
+    main()
