@@ -1,5 +1,6 @@
 from bearlibterminal import terminal
 
+from Color import *
 
 class Player():
     def __init__(self, start_x, start_y):
@@ -23,6 +24,7 @@ class Player():
         terminal.layer(1)
         terminal.put(self.x, self.y, '@')
         terminal.layer(0)
+        terminal.bkcolor(color["black"])
 
     def move(self, direct, level):
         if direct == "up":
@@ -37,3 +39,25 @@ class Player():
         if direct == "right":
             if not level[self.x - 14][self.y].block:
                 self.x += 1
+    
+    
+    def draw_status(self):
+        nutration_max = int(self.nutrition//10 + 1)
+        hp_max = int(self.hp//10 + 1)
+
+        if hp_max > 10:
+            hp_max = 10
+        if nutration_max > 10:
+            nutration_max = 10
+
+        terminal.clear_area(2, 3, 10, 1)
+        for x in range(2, 12):
+            terminal.color(color["healf"])
+            terminal.put(x, 3, chars["block"])
+
+        terminal.clear_area(2, 5, 10, 1)
+        for x in range(nutration_max):
+            terminal.color(color["nutrition"])
+            terminal.put(x + 2, 5, chars["block"])
+
+        terminal.color(color["white"])
