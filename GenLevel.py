@@ -2,64 +2,59 @@ import random
 
 from Tile import Tile
 from Rect import Rect
+import ScanWall
 
 
-def gen_level():
+def create_level():
     level = [[Tile(True) for x in range(50)] for y in range(50)]
+
+    start = Rect(random.randint(1, 48), random.randint(1, 48), 1, 1)
+    start.dig_me(level)
     
-    rooms = []
-    while len(rooms) != 10:
-        failed = False
-        new_room = create_room()
-        for room in rooms:
-            if new_room.intersect(room):
-                failed = True
-        if not failed:
-            rooms.append(new_room)
+    first_room = create_first_room(start, level)
 
-    for room in rooms:
-        room.dig_me(level)
-
-    prev_room = rooms[0]
-    for next_room in rooms[1:]:
-        gen_tonel(prev_room, next_room, level)
-        prev_room = next_room
-
-    return level, rooms
+    return level, start
 
 
-def create_room():
-    """Создает комнату с рандомными координатами и размерами."""
-    room_width_min = room_height_min = 5
-    room_width_max = room_height_max = 10
+def create_first_room(start, level):
+    # FIXME PLEASE
+    first_room = False
+    while not first_room:
+        direct = random.randint(1, 4)
+        w = random.randint(3, 8)
+        h = random.randint(3, 8)
 
-    w = random.randint(room_width_min, room_width_max)
-    h = random.randint(room_height_min, room_height_max)
-    y = random.randint(1, 50-h-1)
-    x = random.randint(1, 50-w-1)
+        if direct == 1:
+            mid = int(w/2)
 
-    return Rect(x, y, w, h)
+            if ScanWall.scan_wall(direct, [[x for x in range(start.x1 - mid, start.x1 + mid)], start.y1], h + 1, level):
+                room = Rect(start.x1 - mid, start.y1 - h, w, h)
+                if 49 > room.x1 > 1 and 49 > room.x2 > 1 and 49 > room.y1 > 1 and 49 > room.y2 > 1:
+                    room.dig_me(level)
+                    first_room = True
+        elif direct == 2:
+            mid = int(h/2)
+            
+            if ScanWall.scan_wall(direct, [start.x1 + 1, [y for y in range(start.y1 - mid, start.y1 + mid)]], w + 1, level):
+                room = Rect(start.x1 + 1, start.y1 - mid, w, h)
+                if 49 > room.x1 > 1 and 49 > room.x2 > 1 and 49 > room.y1 > 1 and 49 > room.y2 > 1:
+                    room.dig_me(level)
+                    first_room = True
+        elif direct == 3:
+            mid = int(w/2)
+            
+            if ScanWall.scan_wall(direct, [[x for x in range(start.x1 - mid, start.x1 + mid)], start.y1 + 1], h + 1, level):
+                room = Rect(start.x1 - mid, start.y1 + 1, w, h)
+                if 49 > room.x1 > 1 and 49 > room.x2 > 1 and 49 > room.y1 > 1 and 49 > room.y2 > 1:
+                    room.dig_me(level)
+                    first_room = True
+        elif direct == 4:
+            mid = int(h/2)
+            
+            if ScanWall.scan_wall(direct, [start.x1, [y for y in range(start.y1 - mid, start.y1 + mid)]], w + 1, level):
+                room = Rect(start.x1 - w, start.y1 - mid, w, h)
+                if 49 > room.x1 > 1 and 49 > room.x2 > 1 and 49 > room.y1 > 1 and 49 > room.y2 > 1:
+                    room.dig_me(level)
+                    first_room = True
 
-
-def gen_tonel(room_one, rome_two, level):
-    """Создает тонель."""
-    x1, y1 = room_one.get_random_dot()
-    x2, y2 = rome_two.get_random_dot()
-
-    if random.randint(0, 1):
-        tonel_v(y1, y2, x1, level)
-        tonel_h(x1, x2, y2, level)
-    else:
-        tonel_h(x1, x2, y1, level)
-        tonel_v(y1, y2, x2, level)
-
-
-
-def tonel_h(x1, x2, y, level):
-    for x in range(min(x1, x2), max(x1, x2) + 1):
-        level[x][y].block = False
-
-
-def tonel_v(y1, y2, x, level):
-    for y in range(min(y1, y2), max(y1, y2) + 1):
-        level[x][y].block = False
+    return room
