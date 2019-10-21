@@ -19,7 +19,7 @@ def init():
 
 def main():
     init()
-    level, start = GenLevel.create_level()
+    level, start, end = GenLevel.create_level()
     player = Player.Player(*start.get_center())
     player.x += 15
     player.name = "BigPigMoon"
@@ -27,7 +27,7 @@ def main():
     
     print_hud(player)
     player.draw_status()
-    print_level(level)
+    print_level(level, start, end)
 
     while True:
         player.draw()

@@ -8,7 +8,7 @@ import ScanWall
 def create_level():
     level = [[Tile(True) for x in range(50)] for y in range(50)]
 
-    start = Rect(random.randint(1, 48), random.randint(1, 48), 1, 1)
+    start = create_start()
     start.dig_me(level)
     
     first_room = create_first_room(start, level)
@@ -16,13 +16,13 @@ def create_level():
     rooms = [first_room]
     tonels = []
 
-    for i in range(1, 35):
+    for i in range(1, 45):
         failed = False
         while not failed:
-            w = random.randint(3, 8)
-            h = random.randint(3, 8)
+            w = random.randint(3, 6)
+            h = random.randint(3, 6)
             direct = random.randint(1, 4)
-            if i % 4 == 0:
+            if i % 2 == 0:
                 # Делаем комнату
                 tonel = random.choice(tonels)
                 wall = ScanWall.choise_wall(direct, tonel)
@@ -32,10 +32,10 @@ def create_level():
                 wall = ScanWall.choise_wall(direct, room)
             if direct in {1, 3}:
                 # UP and DOWN
-                if ScanWall.scan_wall(direct, wall, h, level):
-                    if i % 4 == 0:
+                if ScanWall.scan_wall(direct, wall, h + 3, level):
+                    if i % 2 == 0:
                         # делаем комнату
-                        door = create_tonel(direct, level, wall, 1, 1)
+                        door = create_tonel(direct, level, wall, 2, 1)
                         door.dig_me(level)
                         wall = ScanWall.choise_wall(direct, door)
                         new_room = create_room(direct, level, wall, h, w)
@@ -43,16 +43,16 @@ def create_level():
                         rooms.append(new_room)
                     else:
                         # делаем тонель
-                        new_tonel = create_tonel(direct, level, wall, h, w)
+                        new_tonel = create_tonel(direct, level, wall, w, h)
                         new_tonel.dig_me(level)
                         tonels.append(new_tonel)
                     failed = True
             if direct in {2, 4}:
                 # LEFT and RIGHT
-                if ScanWall.scan_wall(direct, wall, w, level):
-                    if i % 4 == 0:
+                if ScanWall.scan_wall(direct, wall, w + 3, level):
+                    if i % 2 == 0:
                         # делаем комнату
-                        door = create_tonel(direct, level, wall, 1, 1)
+                        door = create_tonel(direct, level, wall, 1, 2)
                         door.dig_me(level)
                         wall = ScanWall.choise_wall(direct, door)
                         new_room = create_room(direct, level, wall, h, w)
@@ -60,11 +60,20 @@ def create_level():
                         rooms.append(new_room)
                     else:
                         # делаем тонель
-                        new_tonel = create_tonel(direct, level, wall, h, w)
+                        new_tonel = create_tonel(direct, level, wall, w, h)
                         new_tonel.dig_me(level)
                         tonels.append(new_tonel)
                     failed = True
-    return level, start
+    end_room = random.choice(rooms)
+    failed = False
+    while not failed:
+        direct = random.randint(1, 4)
+        wall = ScanWall.choise_wall(direct, end_room)
+        if ScanWall.scan_wall(direct, wall, 2, level):
+            end = create_tonel(direct, level, wall, 1, 1)
+            end.dig_me(level)
+            failed = True
+    return level, start, end
 
 
 def create_first_room(start, level):
@@ -72,8 +81,8 @@ def create_first_room(start, level):
     first_room = False
     while not first_room:
         direct = random.randint(1, 4)
-        w = random.randint(3, 5)
-        h = random.randint(3, 5)
+        w = random.randint(4, 5)
+        h = random.randint(4, 5)
 
         if direct == 1:
             mid = int(w/2)
@@ -140,7 +149,7 @@ def create_room(direct, level, wall, h, w):
     return room
 
 
-def create_tonel(direct, level, wall, h, w):
+def create_tonel(direct, level, wall, w, h):
     if direct in {1, 3}:
         if len(wall[0]) > 2:
             wall[0] = wall[0][1:-1]
@@ -173,3 +182,13 @@ def create_tonel(direct, level, wall, h, w):
         tonel = Rect(x - w, y - 1 // 2, w, 1)
 
     return tonel
+
+def create_start(x=None, y=None):
+    if x is None:
+        x = random.randint(1, 48)
+    if y is None:
+        y = random.randint(1, 48)
+
+    start = Rect(x, y, 1, 1)
+
+    return start

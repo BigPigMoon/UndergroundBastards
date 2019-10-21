@@ -3,6 +3,8 @@ def scan_up(coords, depth, level):
     for x in coords[0]:
         for yd in range(1, depth + 1):
             try:
+                if y-yd < 0:
+                    return False
                 if not level[x][y-yd].block:
                     return False
             except IndexError:
@@ -27,6 +29,8 @@ def scan_left(coords, depth, level):
     for y in coords[1]:
         for xd in range(1, depth + 1):
             try:
+                if x - xd < 0:
+                    return False
                 if not level[x-xd][y].block:
                     return False
             except IndexError:
@@ -88,6 +92,7 @@ def choise_wall(direct, room):
 
 
 def scan_wall(direct, coords, depth, level):
+    #TODO Немного переписать
     """Сканирует стену в глубину для новой комнаты, тунеля и пр.
     
     args:

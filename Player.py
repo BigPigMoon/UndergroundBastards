@@ -14,14 +14,14 @@ class Player():
         self.bkcolor = terminal.pick_bkcolor(start_x, start_y)
 
     def clear(self):
-        for layer in range(1, 10):
+        for layer in range(10, 20):
             terminal.layer(layer)
             terminal.put(self.x, self.y, ' ')
 
     def draw(self):
         self.bkcolor = terminal.pick_bkcolor(self.x, self.y)
         terminal.bkcolor(self.bkcolor)
-        terminal.layer(1)
+        terminal.layer(10)
         terminal.put(self.x, self.y, '@')
         terminal.layer(0)
         terminal.bkcolor(color["black"])

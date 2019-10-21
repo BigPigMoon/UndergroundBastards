@@ -2,7 +2,7 @@ from bearlibterminal import terminal
 from Color import color
 
 
-def print_level(level):
+def print_level(level, start, end):
     """Отображает уровень."""
     dx, dy = 15, 0
     for y in range(50):
@@ -16,6 +16,10 @@ def print_level(level):
             dx += 1
         dx = 15
         dy += 1
+    terminal.layer(1)
+    terminal.put(start.x1 + 15, start.y1, '<')
+    terminal.put(end.x1 + 15, end.y1, '>')
+    terminal.layer(0)
     terminal.bkcolor(color["black"])
 
 
