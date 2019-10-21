@@ -13,6 +13,39 @@ def create_level():
     
     first_room = create_first_room(start, level)
 
+    rooms = [first_room]
+    tonnel = []
+
+    for i in range(25):
+        failed = False
+        while not failed:
+            room = random.choice(rooms)
+            w = random.randint(3, 5)
+            h = random.randint(3, 5)
+            direct = random.randint(1, 4)
+            wall = ScanWall.choise_wall(direct, room)
+            if direct in {1, 3}:
+                # UP and DOWN
+                if ScanWall.scan_wall(direct, wall, h, level):
+                    if i % 2 == 2:
+                        new_room = create_room(direct, level, wall, h, w)
+                    else:
+                        new_room = create_tonel(direct, level, wall, h, w)
+                    new_room.dig_me(level)
+                    rooms.append(new_room)
+                    # rooms.remove(room)
+                    failed = True
+            if direct in {2, 4}:
+                # LEFT and RIGHT
+                if ScanWall.scan_wall(direct, wall, w, level):
+                    if i % 2 == 2:
+                        new_room = create_room(direct, level, wall, h, w)
+                    else:
+                        new_room = create_tonel(direct, level, wall, h, w)
+                    new_room.dig_me(level)
+                    rooms.append(new_room)
+                    # rooms.remove(room)
+                    failed = True
     return level, start
 
 
@@ -58,3 +91,59 @@ def create_first_room(start, level):
                     first_room = True
 
     return room
+
+
+def create_room(direct, level, wall, h, w):
+    if direct == 1:
+        # UP
+        x = random.choice(wall[0])
+        y = wall[1]
+        room = Rect(x - w // 2, y - h, w, h)
+
+    if direct == 2:
+        # RIGHT
+        x = wall[0]
+        y = random.choice(wall[1])
+        room = Rect(x, y - h // 2, w, h)
+
+    elif direct == 3:
+        # DOWN
+        x = random.choice(wall[0])
+        y = wall[1]
+        room = Rect(x - w // 2, y, w, h)
+
+    elif direct == 4:
+        # LEFT
+        x = wall[0]
+        y = random.choice(wall[1])
+        room = Rect(x - w, y - h // 2, w, h)
+
+    return room
+
+
+def create_tonel(direct, level, wall, h, w):
+    if direct == 1:
+        # UP
+        x = random.choice(wall[0])
+        y = wall[1]
+        tonel = Rect(x - 1 // 2, y - h, 1, h)
+
+    if direct == 2:
+        # RIGHT
+        x = wall[0]
+        y = random.choice(wall[1])
+        tonel = Rect(x, y - 1 // 2, w, 1)
+
+    elif direct == 3:
+        # DOWN
+        x = random.choice(wall[0])
+        y = wall[1]
+        tonel = Rect(x - 1 // 2, y, 1, h)
+
+    elif direct == 4:
+        # LEFT
+        x = wall[0]
+        y = random.choice(wall[1])
+        tonel = Rect(x - w, y - 1 // 2, w, 1)
+
+    return tonel
