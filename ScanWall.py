@@ -92,7 +92,6 @@ def choise_wall(direct, room):
 
 
 def scan_wall(direct, coords, depth, level):
-    #TODO Немного переписать
     """Сканирует стену в глубину для новой комнаты, тунеля и пр.
     
     args:

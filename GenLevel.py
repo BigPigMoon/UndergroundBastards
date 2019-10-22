@@ -2,13 +2,14 @@ import random
 
 from Tile import Tile
 from Rect import Rect
+from Level import Level
 import ScanWall
 
 
-def create_level():
+def create_level(x=None, y=None):
     level = [[Tile(True) for x in range(50)] for y in range(50)]
 
-    start = create_start()
+    start = create_start(x, y)
     start.dig_me(level)
     first_room = create_first_room(start, level)
 
@@ -18,8 +19,8 @@ def create_level():
     rooms.remove(first_room)
 
     end = create_end(rooms, level)
-
-    return level, start, end
+    rooms.append(first_room)
+    return Level(level, start, end, rooms)
 
 
 def create_main(rooms, tonels, level):

@@ -62,3 +62,9 @@ class Player():
             terminal.put(x + 2, 5, chars["block"])
 
         terminal.color(color["white"])
+
+    def is_exit(self, level):
+        if self.x - 15 == level.end.x1 and self.y == level.end.y1:
+            return True
+        else:
+            return False
