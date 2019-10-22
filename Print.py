@@ -17,8 +17,8 @@ def print_level(level, start, end):
         dx = 15
         dy += 1
     terminal.layer(1)
-    terminal.put(start.x1 + 15, start.y1, '<')
-    terminal.put(end.x1 + 15, end.y1, '>')
+    terminal.put(start.x1 + 15, start.y1, '>')
+    terminal.put(end.x1 + 15, end.y1, '<')
     terminal.layer(0)
     terminal.bkcolor(color["black"])
 
