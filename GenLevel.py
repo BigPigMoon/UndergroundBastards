@@ -15,6 +15,7 @@ def create_level():
     rooms = [first_room]
     tonels = []
     create_main(rooms, tonels, level)
+    rooms.remove(first_room)
 
     end = create_end(rooms, level)
 
@@ -22,44 +23,45 @@ def create_level():
 
 
 def create_main(rooms, tonels, level):
-    for i in range(1, 35):
+    for i in range(1, 30):
         failed = False
+        loop_while = 0
         while not failed:
-            w = random.randint(3, 5)
-            h = random.randint(3, 5)
+            w = random.randint(3, 6)
+            h = random.randint(3, 6)
             direct = random.randint(1, 4)
             if i % 2 == 0:
                 # Делаем комнату
                 tonel = random.choice(tonels)
                 wall = ScanWall.choise_wall(direct, tonel)
                 if direct in {1, 3}:
-                    door = create_tonel(direct, level, wall, 1, 2)
+                    door = create_tonel(direct, level, wall, 1, 1)
                 elif direct in {2, 4}:
-                    door = create_tonel(direct, level, wall, 2, 1)
+                    door = create_tonel(direct, level, wall, 1, 1)
 
-                wall = ScanWall.choise_wall(direct, door)
-                new_room = create_room(direct, level, wall, h, w)
+                wall_door = ScanWall.choise_wall(direct, door)
+                new_room = create_room(direct, level, wall_door, h, w)
             else:
                 # Делаем тонель
                 room = random.choice(rooms + tonels)
                 wall = ScanWall.choise_wall(direct, room)
-                new_tonel = create_tonel(direct, level, wall, w, h)
+                new_tonel = create_tonel(direct, level, wall, w+2, h+2)
 
             if direct in {1, 3}:
                 # UP and DOWN
                 if i % 2 == 0:
-                    # делаем комнату
+                    # Сканируем комнату
                     wall = [[x for x in range(new_room.x1 - 1, new_room.x2 + 1)], wall[1]]
-                    depth = max(new_room.y1, new_room.y2) - min(new_room.y1, new_room.y2) + 2
+                    depth = max(new_room.y1, new_room.y2) - min(new_room.y1, new_room.y2) + 3
                     if ScanWall.scan_wall(direct, wall, depth, level):
                         door.dig_me(level)
                         new_room.dig_me(level)
                         rooms.append(new_room)
                         failed = True
                 else:
-                    # делаем тонель
+                    # Сканируем тонель
                     wall = [[x for x in range(new_tonel.x1 - 1, new_tonel.x1 + 2)], wall[1]]
-                    depth = max(new_tonel.y1, new_tonel.y2) - min(new_tonel.y1, new_tonel.y2)
+                    depth = max(new_tonel.y1, new_tonel.y2) - min(new_tonel.y1, new_tonel.y2) + 3
                     if ScanWall.scan_wall(direct, wall, depth, level):
                         new_tonel.dig_me(level)
                         tonels.append(new_tonel)
@@ -67,22 +69,27 @@ def create_main(rooms, tonels, level):
             if direct in {2, 4}:
                 # LEFT and RIGHT
                 if i % 2 == 0:
-                    # делаем комнату
+                    # Сканируем комнату
                     wall = [wall[0], [y for y in range(new_room.y1 - 1, new_room.y2 + 1)]]
-                    depth = max(new_room.x1, new_room.x2) - min(new_room.x1, new_room.x2) + 2
+                    depth = max(new_room.x1, new_room.x2) - min(new_room.x1, new_room.x2) + 3
                     if ScanWall.scan_wall(direct, wall, depth, level):
                         door.dig_me(level)
                         new_room.dig_me(level)
                         rooms.append(new_room)
                         failed = True
                 else:
-                    # делаем тонель
+                    # Сканируем тонель
                     wall = [wall[0], [y for y in range(new_tonel.y1 - 1, new_tonel.y1 + 2)]]
-                    depth = max(new_tonel.x1, new_tonel.x2) - min(new_tonel.x1, new_tonel.x2)
+                    depth = max(new_tonel.x1, new_tonel.x2) - min(new_tonel.x1, new_tonel.x2) + 3
                     if ScanWall.scan_wall(direct, wall, depth, level):
                         new_tonel.dig_me(level)
                         tonels.append(new_tonel)
                         failed = True
+            
+            loop_while += 1
+            if loop_while > 100000:
+                print("bad map")
+                return
 
 
 def create_first_room(start, level):
