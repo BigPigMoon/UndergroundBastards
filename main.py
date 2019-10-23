@@ -6,7 +6,6 @@ from bearlibterminal import terminal
 import Player
 import KeyFunc as kf
 import GenLevel
-import Level
 import Print as pt
 
 
@@ -33,8 +32,8 @@ def main():
 
     pt.draw_all(player, levels, level_n)
 
-    pt.print_status("Здравствуй, путник. Это возможно твое первое путешествие,"+
-                    "советую ознакомиться с мануалом.")
+    pt.print_status("Здравствуй, путник. Это возможно твое первое путешествие,"
+                    + "советую ознакомиться с мануалом.")
 
     while True:
         player.draw()

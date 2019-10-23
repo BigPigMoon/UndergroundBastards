@@ -106,8 +106,8 @@ def create_first_room(start, level):
     first_room = False
     while not first_room:
         direct = random.randint(1, 4)
-        w = random.randint(4, 5)
-        h = random.randint(4, 5)
+        w = random.randint(3, 6)
+        h = random.randint(3, 6)
 
         if direct == 1:
             mid = int(w/2)

@@ -15,6 +15,7 @@ def print_status(status_string=None, history=[]):
         status_string = status_string.capitalize()
         while len(status_string) > 12:
             # Дробилка
+            # FIXME неправильно дробит строку, а именно через ж#@!
             status_string = status_string[::-1]
             history.append(status_string[12::-1])
             status_string = status_string[:12:-1]
