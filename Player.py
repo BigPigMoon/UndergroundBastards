@@ -68,3 +68,9 @@ class Player():
             return True
         else:
             return False
+
+    def is_start(self, level):
+        if self.x - 15 == level.start.x1 and self.y == level.start.y1:
+            return True
+        else:
+            return False

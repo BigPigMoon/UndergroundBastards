@@ -33,7 +33,7 @@ def create_main(rooms, tonels, level):
             direct = random.randint(1, 4)
             if i % 2 == 0:
                 # Делаем комнату
-                tonel = random.choice(tonels)
+                tonel = random.choice(tonels + rooms)
                 wall = ScanWall.choise_wall(direct, tonel)
                 if direct in {1, 3}:
                     door = create_tonel(direct, level, wall, 1, 1)
@@ -201,9 +201,9 @@ def create_tonel(direct, level, wall, w, h):
 
 def create_start(x=None, y=None):
     if x is None:
-        x = random.randint(1, 48)
+        x = random.randint(10, 40)
     if y is None:
-        y = random.randint(1, 48)
+        y = random.randint(10, 40)
 
     start = Rect(x, y, 1, 1)
 

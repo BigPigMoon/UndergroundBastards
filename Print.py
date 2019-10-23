@@ -2,6 +2,26 @@ from bearlibterminal import terminal
 from Color import color
 
 
+def print_status(status_string=None, history=[]):
+    if status_string is not None:
+        status_string = status_string.capitalize()
+        while len(status_string) > 12:
+            # Дробилка
+            status_string = status_string[::-1]
+            history.append(status_string[12::-1])
+            status_string = status_string[:12:-1]
+
+        history.append(status_string)
+    history.reverse()
+    terminal.clear_area(65, 1, 13, 48)
+    for i in range(48):
+        try:
+            terminal.printf(66, i + 1, history[i] + '\n')
+        except IndexError:
+            break
+    history.reverse()
+
+
 def print_level(levels, level_n):
     """Отображает уровень."""
     level = levels[level_n].level

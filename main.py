@@ -23,6 +23,21 @@ def draw_all(player, levels, level_n):
     terminal.printf(10, 49, str(level_n + 1))
     player.draw_status()
     print_level(levels, level_n)
+    print_status()
+
+
+def push_out_player(level, player):
+    try:
+        if not level[player.x - 15][player.y + 1].block:
+            player.move("down", level)
+        elif not level[player.x - 15][player.y - 1].block:
+            player.move("up", level)
+        elif not level[player.x - 15 - 1][player.y].block:
+            player.move("left", level)
+        elif not level[player.x - 15 + 1][player.y].block:
+            player.move("right", level)
+    except IndexError:
+        print("wtf")
 
 
 def main():
@@ -40,6 +55,8 @@ def main():
     count_celler = 0
 
     draw_all(player, levels, level_n)
+
+    print_status("Здравствуй, путник. Это возможно твое первое путешествие, советую ознакомиться с мануалом.")
 
     while True:
         player.draw()
@@ -61,6 +78,22 @@ def main():
             level_n += 1
             terminal.clear()
             draw_all(player, levels, level_n)
+            push_out_player(levels[level_n].level, player)
+            print_status("вы перешли на уровень" + str(level_n + 1))
+
+        if player.is_start(levels[level_n]):
+            if level_n > 0:
+                level_n -= 1
+                terminal.clear()
+                draw_all(player, levels, level_n)
+                push_out_player(levels[level_n].level, player)
+                print_status("вы перешли на уровень" + str(level_n + 1))
+            else:
+                terminal.clear()
+                draw_all(player, levels, level_n)
+                push_out_player(levels[level_n].level, player)
+                if count_celler != 0:
+                    print_status("выше некуда")
 
         terminal.refresh()
 
