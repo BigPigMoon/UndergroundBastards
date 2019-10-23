@@ -2,6 +2,14 @@ from bearlibterminal import terminal
 from Color import color
 
 
+def draw_all(player, levels, level_n):
+    print_hud(player)
+    terminal.printf(10, 49, str(level_n + 1))
+    player.draw_status()
+    print_level(levels, level_n)
+    print_status()
+
+
 def print_status(status_string=None, history=[]):
     if status_string is not None:
         status_string = status_string.capitalize()
@@ -10,13 +18,16 @@ def print_status(status_string=None, history=[]):
             status_string = status_string[::-1]
             history.append(status_string[12::-1])
             status_string = status_string[:12:-1]
-
         history.append(status_string)
+
+    for hist in history:
+        if len(hist) < 1:
+            history.remove(hist)
     history.reverse()
     terminal.clear_area(65, 1, 13, 48)
     for i in range(48):
         try:
-            terminal.printf(66, i + 1, history[i] + '\n')
+            terminal.printf(66, i + 1, history[i])
         except IndexError:
             break
     history.reverse()

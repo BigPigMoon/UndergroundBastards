@@ -24,7 +24,7 @@ def create_level(x=None, y=None):
 
 
 def create_main(rooms, tonels, level):
-    for i in range(1, 30):
+    for i in range(1, 31):
         failed = False
         loop_while = 0
         while not failed:
@@ -42,11 +42,19 @@ def create_main(rooms, tonels, level):
 
                 wall_door = ScanWall.choise_wall(direct, door)
                 new_room = create_room(direct, level, wall_door, h, w)
+                if new_room.x1 <= 0 or new_room.x2 >= 50:
+                    continue
+                if new_room.y1 <= 0 or new_room.y2 >= 50:
+                    continue
             else:
                 # Делаем тонель
                 room = random.choice(rooms + tonels)
                 wall = ScanWall.choise_wall(direct, room)
                 new_tonel = create_tonel(direct, level, wall, w+2, h+2)
+                if new_tonel.x1 <= 0 or new_tonel.x2 >= 50:
+                    continue
+                if new_tonel.y1 <= 0 or new_tonel.y2 >= 50:
+                    continue
 
             if direct in {1, 3}:
                 # UP and DOWN
@@ -86,7 +94,7 @@ def create_main(rooms, tonels, level):
                         new_tonel.dig_me(level)
                         tonels.append(new_tonel)
                         failed = True
-            
+
             loop_while += 1
             if loop_while > 100000:
                 print("bad map")

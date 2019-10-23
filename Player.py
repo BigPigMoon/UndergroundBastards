@@ -74,3 +74,16 @@ class Player():
             return True
         else:
             return False
+
+    def push_out_player(self, level):
+        try:
+            if not level[self.x - 15][self.y + 1].block:
+                self.move("down", level)
+            elif not level[self.x - 15][self.y - 1].block:
+                self.move("up", level)
+            elif not level[self.x - 15 - 1][self.y].block:
+                self.move("left", level)
+            elif not level[self.x - 15 + 1][self.y].block:
+                self.move("right", level)
+        except IndexError:
+            print("wtf")

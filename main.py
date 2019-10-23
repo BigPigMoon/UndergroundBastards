@@ -7,8 +7,7 @@ import Player
 import KeyFunc as kf
 import GenLevel
 import Level
-from Color import *
-from Print import *
+import Print as pt
 
 
 def init():
@@ -16,28 +15,6 @@ def init():
     terminal.refresh()
     terminal.set('GameSettings.ini')
     return
-
-
-def draw_all(player, levels, level_n):
-    print_hud(player)
-    terminal.printf(10, 49, str(level_n + 1))
-    player.draw_status()
-    print_level(levels, level_n)
-    print_status()
-
-
-def push_out_player(level, player):
-    try:
-        if not level[player.x - 15][player.y + 1].block:
-            player.move("down", level)
-        elif not level[player.x - 15][player.y - 1].block:
-            player.move("up", level)
-        elif not level[player.x - 15 - 1][player.y].block:
-            player.move("left", level)
-        elif not level[player.x - 15 + 1][player.y].block:
-            player.move("right", level)
-    except IndexError:
-        print("wtf")
 
 
 def main():
@@ -54,9 +31,10 @@ def main():
     player.name = "BigPigMoon"
     count_celler = 0
 
-    draw_all(player, levels, level_n)
+    pt.draw_all(player, levels, level_n)
 
-    print_status("Здравствуй, путник. Это возможно твое первое путешествие, советую ознакомиться с мануалом.")
+    pt.print_status("Здравствуй, путник. Это возможно твое первое путешествие,"+
+                    "советую ознакомиться с мануалом.")
 
     while True:
         player.draw()
@@ -77,23 +55,23 @@ def main():
         if player.is_exit(levels[level_n]):
             level_n += 1
             terminal.clear()
-            draw_all(player, levels, level_n)
-            push_out_player(levels[level_n].level, player)
-            print_status("вы перешли на уровень" + str(level_n + 1))
+            pt.draw_all(player, levels, level_n)
+            player.push_out_player(levels[level_n].level)
+            pt.print_status("вы спустились на уровень " + str(level_n + 1))
 
         if player.is_start(levels[level_n]):
             if level_n > 0:
                 level_n -= 1
                 terminal.clear()
-                draw_all(player, levels, level_n)
-                push_out_player(levels[level_n].level, player)
-                print_status("вы перешли на уровень" + str(level_n + 1))
+                pt.draw_all(player, levels, level_n)
+                player.push_out_player(levels[level_n].level)
+                pt.print_status("вы поднялись на уровень " + str(level_n + 1))
             else:
                 terminal.clear()
-                draw_all(player, levels, level_n)
-                push_out_player(levels[level_n].level, player)
+                pt.draw_all(player, levels, level_n)
+                player.push_out_player(levels[level_n].level)
                 if count_celler != 0:
-                    print_status("выше некуда")
+                    pt.print_status("выше некуда")
 
         terminal.refresh()
 
