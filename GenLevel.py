@@ -31,7 +31,7 @@ def create_main(rooms, tonels, level):
             w = random.randint(3, 6)
             h = random.randint(3, 6)
             direct = random.randint(1, 4)
-            if i % 2 == 0:
+            if i % 3 != 0:
                 # Делаем комнату
                 tonel = random.choice(tonels + rooms)
                 wall = ScanWall.choise_wall(direct, tonel)
@@ -58,7 +58,7 @@ def create_main(rooms, tonels, level):
 
             if direct in {1, 3}:
                 # UP and DOWN
-                if i % 2 == 0:
+                if i % 3 != 0:
                     # Сканируем комнату
                     wall = [[x for x in range(new_room.x1 - 1, new_room.x2 + 1)], wall[1]]
                     depth = max(new_room.y1, new_room.y2) - min(new_room.y1, new_room.y2) + 3
@@ -77,7 +77,7 @@ def create_main(rooms, tonels, level):
                         failed = True
             if direct in {2, 4}:
                 # LEFT and RIGHT
-                if i % 2 == 0:
+                if i % 3 != 0:
                     # Сканируем комнату
                     wall = [wall[0], [y for y in range(new_room.y1 - 1, new_room.y2 + 1)]]
                     depth = max(new_room.x1, new_room.x2) - min(new_room.x1, new_room.x2) + 3

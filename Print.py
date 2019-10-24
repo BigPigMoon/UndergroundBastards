@@ -6,6 +6,7 @@ def draw_all(player, levels, level_n):
     print_hud(player)
     terminal.printf(10, 49, str(level_n + 1))
     player.draw_status()
+    player.draw()
     print_level(levels, level_n)
     print_status()
 

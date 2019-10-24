@@ -1,5 +1,6 @@
 from bearlibterminal import terminal
 
+from Items.Inventory import Inventory
 from Color import *
 
 class Player():
@@ -12,6 +13,7 @@ class Player():
         self.xp = 0
         self.gold = 100
         self.bkcolor = terminal.pick_bkcolor(start_x, start_y)
+        self.inventory = Inventory(10, 50)
 
     def clear(self):
         for layer in range(10, 20):

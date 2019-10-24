@@ -11,5 +11,6 @@ color = {
 }
 
 chars = {
-    "block" : 0x258A
+    "block" : 0x258A,
+    "full_block" : 0x2588
 }

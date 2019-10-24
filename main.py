@@ -34,14 +34,15 @@ def main():
 
     pt.print_status("Здравствуй, путник. Это возможно твое первое путешествие,"
                     + "советую ознакомиться с мануалом.")
+    player.draw()
 
     while True:
-        player.draw()
         player.draw_status()
         if terminal.has_input():
             player.clear()
             try:
-                if kf.key_event(player, levels[level_n].level):
+                if kf.key_event(player, levels, level_n):
+                    player.draw()
                     count_celler += 1
                     player.nutrition -= 0.2
             except TypeError:
@@ -53,22 +54,22 @@ def main():
 
         if player.is_exit(levels[level_n]):
             level_n += 1
+            player.push_out_player(levels[level_n].level)
             terminal.clear()
             pt.draw_all(player, levels, level_n)
-            player.push_out_player(levels[level_n].level)
             pt.print_status("вы спустились на уровень " + str(level_n + 1))
 
         if player.is_start(levels[level_n]):
             if level_n > 0:
                 level_n -= 1
+                player.push_out_player(levels[level_n].level)
                 terminal.clear()
                 pt.draw_all(player, levels, level_n)
-                player.push_out_player(levels[level_n].level)
                 pt.print_status("вы поднялись на уровень " + str(level_n + 1))
             else:
+                player.push_out_player(levels[level_n].level)
                 terminal.clear()
                 pt.draw_all(player, levels, level_n)
-                player.push_out_player(levels[level_n].level)
                 if count_celler != 0:
                     pt.print_status("выше некуда")
 
