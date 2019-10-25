@@ -45,7 +45,7 @@ def main():
                     count_celler += 1
                     player.nutrition -= 0.2
             except TypeError:
-                pass
+                player.draw()
 
         if player.nutrition <= 0 or player.hp <= 0:
             terminal.clear()
