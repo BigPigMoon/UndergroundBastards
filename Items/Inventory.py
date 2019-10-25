@@ -1,6 +1,7 @@
 from bearlibterminal import terminal
 
 import Color as cc
+from Print import clear_center
 
 
 class Inventory():
@@ -17,7 +18,7 @@ class Inventory():
             return False
 
     def show_items(self, player):
-        clear_area(player)
+        clear_center(player)
 
     def remove_item(self, item):
         self.items.remove(item)
@@ -36,21 +37,3 @@ class Inventory():
                 return True
         return False
 
-
-def clear_area(player):
-    for i in range(250):
-            terminal.layer(i)
-            terminal.clear_area(20, 5, 40, 40)
-
-    player.clear()
-
-    terminal.layer(0)
-    terminal.color(cc.color["white"])
-    for i in range(20, 60):
-        terminal.put(i, 5, cc.chars["full_block"])
-    for i in range(5, 44):
-        terminal.put(20, i, cc.chars["full_block"])
-    for i in range(5, 45):
-        terminal.put(59, i, cc.chars["full_block"])
-    for i in range(20, 59):
-        terminal.put(i, 44, cc.chars["full_block"])

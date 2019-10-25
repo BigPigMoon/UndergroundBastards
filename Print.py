@@ -1,5 +1,24 @@
 from bearlibterminal import terminal
-from Color import color
+from Color import color, chars
+
+
+def clear_center(player):
+    for i in range(250):
+            terminal.layer(i)
+            terminal.clear_area(20, 5, 40, 40)
+
+    player.clear()
+
+    terminal.layer(0)
+    terminal.color(color["white"])
+    for i in range(20, 60):
+        terminal.put(i, 5, chars["full_block"])
+    for i in range(5, 44):
+        terminal.put(20, i, chars["full_block"])
+    for i in range(5, 45):
+        terminal.put(59, i, chars["full_block"])
+    for i in range(20, 59):
+        terminal.put(i, 44, chars["full_block"])
 
 
 def draw_all(player, levels, level_n):

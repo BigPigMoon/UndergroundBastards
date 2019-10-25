@@ -1,0 +1,10 @@
+{
+    "control" : {
+        "close help" : ["F1"],
+        "down" : ["j", "down"],
+        "up" : ["k", "up"],
+        "left" : ["h", "left"],
+        "right" : ["l", "right"],
+        "inventory" : ["i"]
+    }
+}
