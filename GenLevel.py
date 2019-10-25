@@ -1,3 +1,4 @@
+"""Алгоритм генерации Этажа."""
 import random
 
 from Tile import Tile
