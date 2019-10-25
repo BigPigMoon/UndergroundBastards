@@ -7,6 +7,10 @@ import ScanWall
 
 
 def create_level(x=None, y=None):
+    """Сборная солянка из функций.
+    
+    Принимает x, y параметры входа в подземельня.
+    """
     level = [[Tile(True) for x in range(50)] for y in range(50)]
 
     start = create_start(x, y)
@@ -24,14 +28,15 @@ def create_level(x=None, y=None):
 
 
 def create_main(rooms, tonels, level):
-    for i in range(1, 31):
+    """Главный Алгоритм который создает уровень(этаж)."""
+    for i in range(1, 31): # Число модов
         failed = False
-        loop_while = 0
+        loop_while = 0 # Костыль для того чтобы цыкл выходил из бесконечности, надо убрать но страшно.
         while not failed:
             w = random.randint(3, 6)
             h = random.randint(3, 6)
             direct = random.randint(1, 4)
-            if i % 3 != 0:
+            if i % 3 != 0: # Две комнаты на один тонель
                 # Делаем комнату
                 tonel = random.choice(tonels + rooms)
                 wall = ScanWall.choise_wall(direct, tonel)
@@ -94,7 +99,8 @@ def create_main(rooms, tonels, level):
                         new_tonel.dig_me(level)
                         tonels.append(new_tonel)
                         failed = True
-
+            # Тот самый кастыль.
+            # FIXME Убрать костыль к чертовой матери.
             loop_while += 1
             if loop_while > 100000:
                 print("bad map")
@@ -102,6 +108,10 @@ def create_main(rooms, tonels, level):
 
 
 def create_first_room(start, level):
+    """Генерит начальную комнату.
+    
+    Здель все страшно с кодом надо пофиксить.
+    """
     # FIXME PLEASE
     first_room = False
     while not first_room:
@@ -146,6 +156,7 @@ def create_first_room(start, level):
 
 
 def create_room(direct, level, wall, h, w):
+    """Создает комнату."""
     if direct == 1:
         # UP
         x = random.choice(wall[0])
@@ -174,6 +185,7 @@ def create_room(direct, level, wall, h, w):
 
 
 def create_tonel(direct, level, wall, w, h):
+    """Создает тонель."""
     if direct in {1, 3}:
         if len(wall[0]) > 2:
             wall[0] = wall[0][1:-1]
@@ -208,6 +220,9 @@ def create_tonel(direct, level, wall, w, h):
     return tonel
 
 def create_start(x=None, y=None):
+    """Создает начальную точку от которой будут строится комнаты.
+    
+    Если x и y это None координаты будут рандомными иначе заданные."""
     if x is None:
         x = random.randint(10, 40)
     if y is None:
@@ -219,6 +234,7 @@ def create_start(x=None, y=None):
 
 
 def create_end(rooms, level):
+    """Создает конец в рандомной комнате."""
     failed = False
     while not failed:
         end_room = random.choice(rooms)

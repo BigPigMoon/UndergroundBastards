@@ -13,7 +13,6 @@ def init():
     terminal.open()
     terminal.refresh()
     terminal.set('GameSettings.ini')
-    return
 
 
 def main():

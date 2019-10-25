@@ -1,3 +1,4 @@
+"""Содержит списки цветов и символов."""
 from bearlibterminal import terminal
 
 

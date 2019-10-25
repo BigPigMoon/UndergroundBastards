@@ -3,6 +3,10 @@ from Color import color, chars
 
 
 def clear_center(player):
+    """Очишает область по середине окна.
+    
+    Это сложно объяснить лучше показать.
+    """
     for i in range(250):
             terminal.layer(i)
             terminal.clear_area(20, 5, 40, 40)
@@ -22,6 +26,7 @@ def clear_center(player):
 
 
 def draw_all(player, levels, level_n):
+    """Рисует все что здесь есть."""
     print_hud(player)
     terminal.printf(10, 49, str(level_n + 1))
     player.draw_status()
@@ -31,6 +36,10 @@ def draw_all(player, levels, level_n):
 
 
 def print_status(status_string=None, history=[]):
+    """Пишет в статус.
+    
+    Статус тот который с боку.
+    """
     if status_string is not None:
         status_string = status_string.capitalize()
         while len(status_string) > 12:
