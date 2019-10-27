@@ -1,8 +1,8 @@
 import sys
 
 from bearlibterminal import terminal
-from Print import draw_all, clear_center
-from PrintHelp import show_help
+from Prints.Print import draw_all, clear_center
+from Prints.PrintHelp import show_help
 
 
 item_show = False

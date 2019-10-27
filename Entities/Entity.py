@@ -1,6 +1,6 @@
 from bearlibterminal import terminal
 
-from Color import color
+from Objects.Color import color
 
 class Entity():
     def __init__(self, x, y):

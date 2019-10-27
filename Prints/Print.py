@@ -1,5 +1,5 @@
 from bearlibterminal import terminal
-from Color import color, chars
+from Objects.Color import color, chars
 
 
 def clear_center(player):

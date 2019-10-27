@@ -1,7 +1,9 @@
 from bearlibterminal import terminal
 
-import Color as cc
-from Print import clear_center
+import Objects.Color as cc
+from Prints.Print import clear_center
+
+from Items.Items import Weapon, Armor, Food, Potion
 
 
 class Inventory():
@@ -20,6 +22,57 @@ class Inventory():
     def show_items(self, player):
         clear_center(player)
 
+        weapons = []
+        armors = []
+        foods = []
+        potions = []
+
+        for item in self.items:
+            if type(item) == Weapon:
+                weapons.append(item)
+            if type(item) == Armor:
+                armors.append(item)
+            if type(item) == Food:
+                foods.append(item)
+            if type(item) == Potion:
+                potions.append(item)
+
+        start = 8
+        terminal.printf(24, start, "Оружие")
+        if len(weapons) > 0:
+            for count, weapon in enumerate(weapons):
+                terminal.printf(22, start + 1 + count, weapon.name)
+        else:
+            terminal.printf(22, start + 1, "---------")
+            count = 0
+
+        start += 2 + count
+        terminal.printf(24, start, "Снаряжение")
+        if len(armors) > 0:
+            for count, armor in enumerate(armors):
+                terminal.printf(22, start + 1 + count, armor.name)
+        else:
+            terminal.printf(22, start + 1, "----------")
+            count = 0
+
+        start += 2 + count
+        terminal.printf(24, start, "Еда")
+        if len(foods) > 0:
+            for coutn, food in enumerate(foods):
+                terminal.printf(22, start + 1 + coutn, food.name)
+        else:
+            terminal.printf(22, start + 1, "----------")
+            count = 0
+
+        start += 2 + count
+        terminal.printf(24, start, "Зелья")
+        if len(potions) > 0:
+            for count, potion in enumerate(potions):
+                terminal.printf(22, start + 1 + coutn, potion.name)
+        else:
+            terminal.printf(22, start + 1, "-----------")
+            count = 0
+
     def remove_item(self, item):
         self.items.remove(item)
 
@@ -36,4 +89,3 @@ class Inventory():
             if item == item_for_find:
                 return True
         return False
-

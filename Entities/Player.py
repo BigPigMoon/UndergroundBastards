@@ -1,8 +1,9 @@
 from bearlibterminal import terminal
 
 from Items.Inventory import Inventory
-from Color import *
-from Entity import Entity
+from Objects.Color import *
+from Entities.Entity import Entity
+
 
 class Player(Entity):
     """Класс игрока."""

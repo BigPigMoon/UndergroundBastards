@@ -3,10 +3,11 @@ import random
 
 from bearlibterminal import terminal
 
-import Player
+from Entities import Player
 import KeyFunc as kf
-import GenLevel
-import Print as pt
+from LevelGen import GenLevel
+from Prints import Print as pt
+from Items import Items
 
 
 def init():
@@ -34,6 +35,10 @@ def main():
     pt.print_status("Здравствуй, путник. Это возможно твое первое путешествие,"
                     + "советую ознакомиться с мануалом.")
     player.draw()
+    player.inventory.add_item(Items.Weapon(10, 10, 10, "Топор"))
+    player.inventory.add_item(Items.Weapon(15, 10, 10, "Молот"))
+    player.inventory.add_item(Items.Food(10, 120, 5, "Сосиски"))
+    player.inventory.add_item(Items.Food(10, 250, 10, "Коклеты"))
 
     while True:
         player.draw_status()
