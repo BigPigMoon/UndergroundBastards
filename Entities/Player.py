@@ -3,6 +3,7 @@ from bearlibterminal import terminal
 from Items.Inventory import Inventory
 from Objects.Color import *
 from Entities.Entity import Entity
+from Prints.Print import draw_all
 
 
 class Player(Entity):
@@ -12,9 +13,10 @@ class Player(Entity):
         self.nutrition = 100
         self.xp = 0
         self.gold = 100
-        self.inventory = Inventory(10, 50)
+        self.inventory = Inventory(120)
         self.char = '@'
         self.layer_draw = 10
+        self.block_move = False
 
     def draw_status(self):
         """Отображение состояния игрока."""
@@ -37,3 +39,14 @@ class Player(Entity):
             terminal.put(x + 2, 5, chars["block"])
 
         terminal.color(color["white"])
+
+
+    def move(self, direct, levels, level_n):
+        level = levels[level_n].level
+        super().move(direct, levels, level_n)
+        if len(level[self.x - 15][self.y].item_on_me) > 0:
+            item = level[self.x - 15][self.y].item_on_me[0]
+            self.inventory.add_item(item, self.block_move)
+            level[self.x - 15][self.y].item_on_me.remove(item)
+            terminal.clear()
+            draw_all(self, levels, level_n)

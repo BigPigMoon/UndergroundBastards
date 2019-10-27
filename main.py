@@ -5,7 +5,7 @@ from bearlibterminal import terminal
 
 from Entities import Player
 import KeyFunc as kf
-from LevelGen import GenLevel
+from LevelGen import GenLevel, ItemsGen
 from Prints import Print as pt
 from Items import Items
 
@@ -25,6 +25,8 @@ def main():
     for i in range(26):
         levels.append(GenLevel.create_level(*levels[i].end.get_center()))
 
+    ItemsGen.item_gen(levels)
+
     player = Player.Player(*level.start.get_center())
     player.x += 15
     player.name = "BigPigMoon"
@@ -35,10 +37,6 @@ def main():
     pt.print_status("Здравствуй, путник. Это возможно твое первое путешествие,"
                     + "советую ознакомиться с мануалом.")
     player.draw()
-    player.inventory.add_item(Items.Weapon(10, 10, 10, "Топор"))
-    player.inventory.add_item(Items.Weapon(15, 10, 10, "Молот"))
-    player.inventory.add_item(Items.Food(10, 120, 5, "Сосиски"))
-    player.inventory.add_item(Items.Food(10, 250, 10, "Коклеты"))
 
     while True:
         player.draw_status()
@@ -58,7 +56,7 @@ def main():
 
         if player.is_exit(levels[level_n]):
             level_n += 1
-            player.push_out_player(levels[level_n].level)
+            player.push_out_player(levels, level_n)
             terminal.clear()
             pt.draw_all(player, levels, level_n)
             pt.print_status("вы спустились на уровень " + str(level_n + 1))
@@ -66,12 +64,12 @@ def main():
         if player.is_start(levels[level_n]):
             if level_n > 0:
                 level_n -= 1
-                player.push_out_player(levels[level_n].level)
+                player.push_out_player(levels, level_n)
                 terminal.clear()
                 pt.draw_all(player, levels, level_n)
                 pt.print_status("вы поднялись на уровень " + str(level_n + 1))
             else:
-                player.push_out_player(levels[level_n].level)
+                player.push_out_player(levels, level_n)
                 terminal.clear()
                 pt.draw_all(player, levels, level_n)
                 if count_celler != 0:

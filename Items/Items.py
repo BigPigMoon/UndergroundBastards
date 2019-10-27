@@ -27,5 +27,5 @@ class Food(Item):
 
 
 class Potion(Item):
-    def __init__(self, *args):
-        pass
+    def __init__(self, weight, name):
+        super().__init__(weight, name)

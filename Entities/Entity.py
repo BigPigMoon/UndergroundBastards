@@ -26,8 +26,9 @@ class Entity():
         terminal.layer(0)
         terminal.bkcolor(color["black"])
 
-    def move(self, direct, level):
+    def move(self, direct, levels, level_n):
         """Двигает игрока в зависимости от направления."""
+        level = levels[level_n].level
         if direct == "up":
             if not level[self.x - 15][self.y - 1].block:
                 self.y -= 1
@@ -55,20 +56,21 @@ class Entity():
         else:
             return False
 
-    def push_out_player(self, level):
+    def push_out_player(self, levels, level_n):
         """Выталкивает игрока на свободную клетку.
         
         Т.к. свободная клетка одна мы просто ищем свободную и толкаем.
         """
+        level = levels[level_n].level
         try:
             if not level[self.x - 15][self.y + 1].block:
-                self.move("down", level)
+                self.move("down", levels, level_n)
             elif not level[self.x - 15][self.y - 1].block:
-                self.move("up", level)
+                self.move("up", levels, level_n)
             elif not level[self.x - 15 - 1][self.y].block:
-                self.move("left", level)
+                self.move("left", levels, level_n)
             elif not level[self.x - 15 + 1][self.y].block:
-                self.move("right", level)
+                self.move("right", levels, level_n)
         except IndexError:
             print("wtf")
 

@@ -1,5 +1,6 @@
 from bearlibterminal import terminal
 from Objects.Color import color, chars
+from Items.Items import Weapon, Armor, Food, Potion
 
 
 def clear_center(player):
@@ -72,19 +73,35 @@ def print_level(levels, level_n):
     dx, dy = 15, 0
     for y in range(50):
         for x in range(50):
+            terminal.layer(0)
             if level[x][y].block:
                 terminal.bkcolor(color["wall"])
                 terminal.put(dx, dy, ' ')
             else:
                 terminal.bkcolor(color["flor"])
                 terminal.put(dx, dy, '.')
+
+            terminal.layer(2)
+            terminal.bkcolor(color["flor"])
+            if len(level[x][y].item_on_me) > 0:
+                for item in level[x][y].item_on_me:
+                    if type(item) == Weapon:
+                        terminal.put(dx, dy, 'W')
+                    if type(item) == Armor:
+                        terminal.put(dx, dy, 'A')
+                    if type(item) == Food:
+                        terminal.put(dx, dy, 'F')
+                    if type(item) == Potion:
+                        terminal.put(dx, dy, 'P')
             dx += 1
         dx = 15
         dy += 1
     terminal.layer(1)
+    terminal.bkcolor(color["flor"])
     terminal.printf(start.x1 + 15, start.y1, '>')
     terminal.printf(end.x1 + 15, end.y1, '<')
     terminal.layer(0)
+
     terminal.bkcolor(color["black"])
 
 

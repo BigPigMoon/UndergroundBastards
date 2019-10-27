@@ -7,20 +7,24 @@ from Items.Items import Weapon, Armor, Food, Potion
 
 
 class Inventory():
-    def __init__(self, max_capacity, max_weight):
+    def __init__(self, max_weight):
         self.items = []
-        self.capacity = max_capacity
         self.weight = max_weight
+        self.sum_weight = 0
 
-    def add_item(self, item):
-        if len(self.items) < self.capacity:
-            self.items.append(item)
-            return True
+    def add_item(self, item, block_move):
+        self.items.append(item)
+        self.sum_weight += item.weight
+
+        if self.sum_weight < self.weight:
+            block_move = False
         else:
-            return False
+            block_move = True
 
     def show_items(self, player):
         clear_center(player)
+
+        terminal.printf(41, 7, "Вес груза " + str(self.sum_weight) + "/" + str(self.weight))
 
         weapons = []
         armors = []
@@ -37,41 +41,7 @@ class Inventory():
             if type(item) == Potion:
                 potions.append(item)
 
-        start = 8
-        terminal.printf(24, start, "Оружие")
-        if len(weapons) > 0:
-            for count, weapon in enumerate(weapons):
-                terminal.printf(22, start + 1 + count, weapon.name)
-        else:
-            terminal.printf(22, start + 1, "---------")
-            count = 0
-
-        start += 2 + count
-        terminal.printf(24, start, "Снаряжение")
-        if len(armors) > 0:
-            for count, armor in enumerate(armors):
-                terminal.printf(22, start + 1 + count, armor.name)
-        else:
-            terminal.printf(22, start + 1, "----------")
-            count = 0
-
-        start += 2 + count
-        terminal.printf(24, start, "Еда")
-        if len(foods) > 0:
-            for count, food in enumerate(foods):
-                terminal.printf(22, start + 1 + count, food.name)
-        else:
-            terminal.printf(22, start + 1, "----------")
-            count = 0
-
-        start += 2 + count
-        terminal.printf(24, start, "Зелья")
-        if len(potions) > 0:
-            for count, potion in enumerate(potions):
-                terminal.printf(22, start + 1 + count, potion.name)
-        else:
-            terminal.printf(22, start + 1, "-----------")
-            count = 0
+        print_iventory(weapons, armors, foods, potions)
 
     def remove_item(self, item):
         self.items.remove(item)
@@ -89,3 +59,40 @@ class Inventory():
             if item == item_for_find:
                 return True
         return False
+
+def print_iventory(weapons, armors, foods, potions):
+        start = 8
+        terminal.printf(24, start, "Оружие")
+        if len(weapons) > 0:
+            for count, weapon in enumerate(weapons):
+                terminal.printf(22, start + 1 + count, weapon.name)
+        else:
+            terminal.printf(22, start + 1, str("-" * 36))
+            count = 0
+
+        start += 2 + count
+        terminal.printf(24, start, "Снаряжение")
+        if len(armors) > 0:
+            for count, armor in enumerate(armors):
+                terminal.printf(22, start + 1 + count, armor.name)
+        else:
+            terminal.printf(22, start + 1, str("-" * 36))
+            count = 0
+
+        start += 2 + count
+        terminal.printf(24, start, "Еда")
+        if len(foods) > 0:
+            for count, food in enumerate(foods):
+                terminal.printf(22, start + 1 + count, food.name)
+        else:
+            terminal.printf(22, start + 1, str("-" * 36))
+            count = 0
+
+        start += 2 + count
+        terminal.printf(24, start, "Зелья")
+        if len(potions) > 0:
+            for count, potion in enumerate(potions):
+                terminal.printf(22, start + 1 + count, potion.name)
+        else:
+            terminal.printf(22, start + 1, str("-" * 36))
+            count = 0
