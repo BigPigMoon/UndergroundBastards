@@ -58,8 +58,8 @@ class Inventory():
         start += 2 + count
         terminal.printf(24, start, "Еда")
         if len(foods) > 0:
-            for coutn, food in enumerate(foods):
-                terminal.printf(22, start + 1 + coutn, food.name)
+            for count, food in enumerate(foods):
+                terminal.printf(22, start + 1 + count, food.name)
         else:
             terminal.printf(22, start + 1, "----------")
             count = 0
@@ -68,7 +68,7 @@ class Inventory():
         terminal.printf(24, start, "Зелья")
         if len(potions) > 0:
             for count, potion in enumerate(potions):
-                terminal.printf(22, start + 1 + coutn, potion.name)
+                terminal.printf(22, start + 1 + count, potion.name)
         else:
             terminal.printf(22, start + 1, "-----------")
             count = 0
