@@ -49,11 +49,11 @@ class Player(Entity):
     def move(self, direct, levels, level_n):
         """Передвижение игрока и проверка предветов."""
         # TODO В далеком будушем надо будет либо оставить и дописывать либо убирать
-        level = levels[level_n].level
         super().move(direct, levels, level_n)
+        level = levels[level_n].level
         if len(level[self.x - 15][self.y].item_on_me) > 0:
-            item = level[self.x - 15][self.y].item_on_me[0]
-            self.inventory.add_item(item)
-            level[self.x - 15][self.y].item_on_me.remove(item)
+            for item in level[self.x - 15][self.y].item_on_me:
+                self.inventory.add_item(item)
+            level[self.x - 15][self.y].item_on_me = []
             terminal.clear()
             draw_all(self, levels, level_n)
