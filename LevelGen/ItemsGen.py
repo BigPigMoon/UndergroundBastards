@@ -4,6 +4,7 @@ from Items.Items import Weapon, Potion, Armor, Food
 
 
 def item_gen(levels):
+    """Рандомно раскидывает предметы по всем этажам в уровне."""
     for level in levels:
         # Food gen
         for _ in range(random.randint(0, 1)):

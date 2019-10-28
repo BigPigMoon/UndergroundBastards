@@ -8,10 +8,11 @@ from Prints.PrintHelp import show_help
 item_show = False
 help_show = False
 table_show = False
+item_count = 0
 
 def key_event(player, levels, level_n):
     """Обработка клавиш."""
-    global item_show, help_show, table_show
+    global item_show, help_show, table_show, item_count
 
     readkey = terminal.read()
 
@@ -21,12 +22,20 @@ def key_event(player, levels, level_n):
             if not player.block_move:
                 player.move("up", levels, level_n)
             return True
+        elif item_show:
+            item_count -= 1
+            item_count = player.inventory.show_items(item_count)
+
     if readkey == terminal.TK_J or readkey == terminal.TK_DOWN:
         # Down
         if not table_show:
             if not player.block_move:
                 player.move("down", levels, level_n)
             return True
+        elif item_show:
+            item_count += 1
+            item_count = player.inventory.show_items(item_count)
+
     if readkey == terminal.TK_H or readkey == terminal.TK_LEFT:
         # Left
         if not table_show:
@@ -39,7 +48,7 @@ def key_event(player, levels, level_n):
             if not player.block_move:
                 player.move("right", levels, level_n)
             return True
-
+    
     if readkey == terminal.TK_Z:
         if not table_show:
             return True
@@ -50,10 +59,17 @@ def key_event(player, levels, level_n):
             item_show = False
             table_show = False
             item_show = False
+            item_count = 0
         else:
-            player.inventory.show_items(player)
+            player.inventory.show_items()
             item_show = True
             table_show = True
+
+    if readkey == terminal.TK_D:
+        # Дроп предметов только если в инвентаре.
+        if item_show:
+            player.inventory.drop_item(item_count, levels, level_n)
+            player.inventory.show_items(item_count)
 
     if readkey == terminal.TK_F1:
         if help_show:
@@ -61,11 +77,13 @@ def key_event(player, levels, level_n):
             help_show = False
             table_show = False
             item_show = False
+            item_count = 0
         else:
             clear_center(player)
             show_help()
             help_show = True
             table_show = True
+            item_count = 0
 
     if readkey == terminal.TK_ESCAPE:
         if not table_show:

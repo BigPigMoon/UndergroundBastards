@@ -13,7 +13,7 @@ class Player(Entity):
         self.nutrition = 100
         self.xp = 0
         self.gold = 100
-        self.inventory = Inventory(120)
+        self.inventory = Inventory(60, self)
         self.char = '@'
         self.layer_draw = 10
         self.block_move = False
@@ -39,14 +39,21 @@ class Player(Entity):
             terminal.put(x + 2, 5, chars["block"])
 
         terminal.color(color["white"])
+        terminal.clear_area(1, 7, 14, 1)
+        terminal.printf(1, 7, "Вес: " + str(self.inventory.sum_weight) + "/"
+                                            + str(self.inventory.weight))
+
+        terminal.color(color["white"])
 
 
     def move(self, direct, levels, level_n):
+        """Передвижение игрока и проверка предветов."""
+        # TODO В далеком будушем надо будет либо оставить и дописывать либо убирать
         level = levels[level_n].level
         super().move(direct, levels, level_n)
         if len(level[self.x - 15][self.y].item_on_me) > 0:
             item = level[self.x - 15][self.y].item_on_me[0]
-            self.inventory.add_item(item, self.block_move)
+            self.inventory.add_item(item)
             level[self.x - 15][self.y].item_on_me.remove(item)
             terminal.clear()
             draw_all(self, levels, level_n)

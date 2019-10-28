@@ -1,4 +1,7 @@
 class Item(object):
+    """Класс всех предметов.
+    
+    Большой родитель."""
     def __init__(self, weight, name):
         self.weight = weight
         self.name = name
@@ -6,6 +9,7 @@ class Item(object):
 
 
 class Weapon(Item):
+    """Класс оружия."""
     def __init__(self, weight, damage, hardness, name):
         super().__init__(weight, name)
         self.damage = damage
@@ -13,6 +17,7 @@ class Weapon(Item):
 
 
 class Armor(Item):
+    """Класс брони."""
     def __init__(self, weight, protection, hardness, name):
         super().__init__(weight, name)
         self.protection = protection
@@ -20,6 +25,7 @@ class Armor(Item):
 
 
 class Food(Item):
+    """Класс еды."""
     def __init__(self, weight, saturability, decay, name):
         super().__init__(weight, name)
         self.saturability = saturability
@@ -27,5 +33,7 @@ class Food(Item):
 
 
 class Potion(Item):
+    """Класс зелий."""
+    # TODO зелья еще не готовы.
     def __init__(self, weight, name):
         super().__init__(weight, name)

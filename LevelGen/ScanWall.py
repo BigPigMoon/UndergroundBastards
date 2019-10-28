@@ -1,55 +1,3 @@
-def scan_up(coords, depth, level):
-    y = coords[1]
-    for x in coords[0]:
-        for yd in range(1, depth + 1):
-            try:
-                if y-yd < 0:
-                    return False
-                if not level[x][y-yd].block:
-                    return False
-            except IndexError:
-                return False
-    return True
-
-
-def scan_down(coords, depth, level):
-    y = coords[1]
-    for x in coords[0]:
-        for yd in range(0, depth):
-            try:
-                if not level[x][y+yd].block:
-                    return False
-            except IndexError:
-                return False
-    return True
-
-
-def scan_left(coords, depth, level):
-    x = coords[0]
-    for y in coords[1]:
-        for xd in range(1, depth + 1):
-            try:
-                if x - xd < 0:
-                    return False
-                if not level[x-xd][y].block:
-                    return False
-            except IndexError:
-                return False
-    return True
-
-
-def scan_right(coords, depth, level):
-    x = coords[0]
-    for y in coords[1]:
-        for xd in range(0, depth):
-            try:
-                if not level[x+xd][y].block:
-                    return False
-            except IndexError:
-                return False
-    return True
-
-
 def choise_wall(direct, room):
     """Выбирает комнату в зависимости от направления.
 
@@ -122,3 +70,55 @@ def scan_wall(direct, coords, depth, level):
     else:
         print("oops, your coordinates is None.")
         return
+
+
+def scan_up(coords, depth, level):
+    y = coords[1]
+    for x in coords[0]:
+        for yd in range(1, depth + 1):
+            try:
+                if y-yd < 0:
+                    return False
+                if not level[x][y-yd].block:
+                    return False
+            except IndexError:
+                return False
+    return True
+
+
+def scan_down(coords, depth, level):
+    y = coords[1]
+    for x in coords[0]:
+        for yd in range(0, depth):
+            try:
+                if not level[x][y+yd].block:
+                    return False
+            except IndexError:
+                return False
+    return True
+
+
+def scan_left(coords, depth, level):
+    x = coords[0]
+    for y in coords[1]:
+        for xd in range(1, depth + 1):
+            try:
+                if x - xd < 0:
+                    return False
+                if not level[x-xd][y].block:
+                    return False
+            except IndexError:
+                return False
+    return True
+
+
+def scan_right(coords, depth, level):
+    x = coords[0]
+    for y in coords[1]:
+        for xd in range(0, depth):
+            try:
+                if not level[x+xd][y].block:
+                    return False
+            except IndexError:
+                return False
+    return True

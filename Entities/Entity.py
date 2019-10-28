@@ -13,12 +13,12 @@ class Entity():
         self.layer_draw = 0
 
     def clear(self):
-        """Очищает игрока."""
+        """Очищает существо."""
         terminal.layer(self.layer_draw)
         terminal.put(self.x, self.y, ' ')
 
     def draw(self):
-        """Рисует игрока."""
+        """Рисует существо."""
         self.bkcolor = terminal.pick_bkcolor(self.x, self.y)
         terminal.bkcolor(self.bkcolor)
         terminal.layer(self.layer_draw)
@@ -27,7 +27,7 @@ class Entity():
         terminal.bkcolor(color["black"])
 
     def move(self, direct, levels, level_n):
-        """Двигает игрока в зависимости от направления."""
+        """Двигает существо в зависимости от направления."""
         level = levels[level_n].level
         if direct == "up":
             if not level[self.x - 15][self.y - 1].block:
@@ -57,7 +57,7 @@ class Entity():
             return False
 
     def push_out_player(self, levels, level_n):
-        """Выталкивает игрока на свободную клетку.
+        """Выталкивает существо на свободную клетку.
         
         Т.к. свободная клетка одна мы просто ищем свободную и толкаем.
         """
