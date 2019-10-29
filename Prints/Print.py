@@ -87,14 +87,7 @@ def print_level(levels, level_n):
                 # TODO Не порядок. надо будет в классах предметов покапатся.
                 # И выдавать каждому символ, а потом принтить последний.
                 for item in level[x][y].item_on_me:
-                    if type(item) == Weapon:
-                        terminal.put(dx, dy, 'W')
-                    if type(item) == Armor:
-                        terminal.put(dx, dy, 'A')
-                    if type(item) == Food:
-                        terminal.put(dx, dy, 'F')
-                    if type(item) == Potion:
-                        terminal.put(dx, dy, 'P')
+                    terminal.put(dx, dy, item.char)
             dx += 1
         dx = 15
         dy += 1

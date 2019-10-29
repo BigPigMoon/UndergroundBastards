@@ -71,6 +71,11 @@ def key_event(player, levels, level_n):
             player.inventory.drop_item(item_count, levels, level_n)
             player.inventory.show_items(item_count)
 
+    if readkey == terminal.TK_E:
+        if item_show:
+            player.inventory.equip_item(item_count)
+            player.inventory.show_items(item_count)
+
     if readkey == terminal.TK_F1:
         if help_show:
             draw_all(player, levels, level_n)

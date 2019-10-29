@@ -11,22 +11,29 @@ def item_gen(levels):
             room = random.choice(level.rooms)
             level.rooms.remove(room)
             x, y = room.get_random()
-            level.level[x][y].item_on_me.append(Food(5, 100, 100, "Сосиски"))
+            item = Food(5, 100, 100, 'S', "Сосиски")
+            level.level[x][y].item_on_me.append(item)
         # Armor gen
         for _ in range(random.randint(0, 2)):
             room = random.choice(level.rooms)
             level.rooms.remove(room)
             x, y = room.get_random()
-            level.level[x][y].item_on_me.append(Armor(20, 10, 20, "Штаны"))
+            if random.randint(0, 1):
+                item = Armor(5, 5, 10, "head", '^', "Шапка")
+            else:
+                item = Armor(10, 10, 20, "body", '|', "Штаны")
+            level.level[x][y].item_on_me.append(item)
         # Weapon gen
         for _ in range(random.randint(0, 2)):
             room = random.choice(level.rooms)
             level.rooms.remove(room)
             x, y = room.get_random()
-            level.level[x][y].item_on_me.append(Weapon(20, 30, 20, "Боевой топор"))
+            item = Weapon(15, 30, 20, 'Т', "Боевой топор")
+            level.level[x][y].item_on_me.append(item)
         # Potion gen
         for _ in range(random.randint(1, 4)):
             room = random.choice(level.rooms)
             level.rooms.remove(room)
             x, y = room.get_random()
-            level.level[x][y].item_on_me.append(Potion(5, "Красное зелье"))
+            item = Potion(5, 'O', "Красное зелье")
+            level.level[x][y].item_on_me.append(item)

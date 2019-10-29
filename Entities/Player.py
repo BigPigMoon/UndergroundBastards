@@ -17,6 +17,8 @@ class Player(Entity):
         self.char = '@'
         self.layer_draw = 10
         self.block_move = False
+        self.damage = 1
+        self.protection = 5
 
     def draw_status(self):
         """Отображение состояния игрока."""
