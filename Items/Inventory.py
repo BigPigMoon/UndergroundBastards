@@ -1,8 +1,10 @@
 from bearlibterminal import terminal
 
 import Objects.Color as cc
-from Prints.Print import clear_center
+from Prints.Print import clear_center, draw_all
+import KeyFunc as kf
 
+from Objects.Color import color
 from Items.Items import Weapon, Armor, Food, Potion, BackPack
 
 
@@ -30,7 +32,7 @@ class Inventory():
                     # equip
                     if self.weapon_equip is not None:
                         self.weapon_equip.equip = False
-                        self.player.damage -= item.damage
+                        self.player.damage -= self.weapon_equip.damage
                     self.weapon_equip = item
                     self.player.damage += item.damage
                     item.equip = True
@@ -45,7 +47,7 @@ class Inventory():
                         # equip
                         if self.head_equip is not None:
                             self.head_equip.equip = False
-                            self.player.protection -= item.protection
+                            self.player.protection -= self.head_equip.protection
                         self.head_equip = item
                         self.player.protection += item.protection
                         item.equip = True
@@ -59,7 +61,7 @@ class Inventory():
                         # equip
                         if self.body_equip is not None:
                             self.body_equip.equip = False
-                            self.player.protection -= item.protection
+                            self.player.protection -= self.body_equip.protection
                         self.body_equip = item
                         self.player.protection += item.protection
                         item.equip = True
@@ -69,7 +71,7 @@ class Inventory():
                 return
         except IndexError:
             pass
-        print(self.player.protection, self.player.damage)
+        print(f"{self.player.protection=}, {self.player.damage=}")
 
     def unequip_item(self, item):
         if type(item) == Weapon:
@@ -114,8 +116,15 @@ class Inventory():
         item_count -- жуткий костыль, а шо поделаишь."""
         # HACK item_count
         clear_center(self.player)
+        terminal.printf(23, 44, "Класть")
+        terminal.printf(31, 44, "Надеть")
+        terminal.color(color["lightBlue"])
+        terminal.put(22, 44, "D")
+        terminal.put(30, 44, "E")
+        terminal.color(color["white"])
 
-        terminal.printf(41, 7, "Вес груза " + str(self.sum_weight) + "/" + str(self.weight))
+        terminal.printf(41, 7, "Вес груза " + str(self.sum_weight) +
+                               "/" + str(self.weight))
 
         weapons = []
         armors = []
@@ -156,38 +165,20 @@ class Inventory():
                 self.player.block_move = False
             else:
                 self.player.block_move = True
-            # try:
-            #     if item.equip:
-            #         if type(item) == Weapon:
-            #             self.weapon_equip = None
-            #             item.equip = False
-            #         elif type(item) == Armor:
-            #             if item.type_armor == "head":
-            #                 self.head_equip = None
-            #                 item.equip = False
-            #             if item.type_armor == "body":
-            #                 self.body_equip = None
-            #                 item.equip = False
-            # except AttributeError:
-            #     pass
+
             self.unequip_item(item)
-            # TODO Дописать выбор в какую сторону дропнуть предмет.
-            # Лучше будет написать отдельную функцию в keyfunc
+            
             level = levels[level_n].level
-            try:
-                if not level[self.player.x - 15][self.player.y + 1].block:
-                    level[self.player.x - 15][self.player.y + 1].item_on_me.append(item)
+            level[self.player.x - 15][self.player.y].item_on_me.append(item)
+        except IndexError:
+            pass
 
-                elif not level[self.player.x - 15][self.player.y - 1].block:
-                    level[self.player.x - 15][self.player.y - 1].item_on_me.append(item)
-
-                elif not level[self.player.x - 15 - 1][self.player.y].block:
-                    level[self.player.x - 15 - 1][self.player.y].item_on_me.append(item)
-
-                elif not level[self.player.x - 15 + 1][self.player.y].block:
-                    level[self.player.x - 15 + 1][self.player.y].item_on_me.append(item)
-            except IndexError:
-                print("wtf")
+    def get_info_item(self, item_count):
+        try:
+            item = self.items[item_count]
+            print()
+            for key, val in item.__dict__.items():
+                print(f"{key} = {val}")
         except IndexError:
             pass
 
@@ -203,7 +194,9 @@ class Inventory():
         terminal.printf(24, start, "Оружие")
         if len(weapons) > 0:
             for count, weapon in enumerate(weapons):
+                terminal.color(color[weapon.rang])
                 terminal.printf(22, start + 1 + count, weapon.name)
+                terminal.color(color["white"])
                 item_coord.append(start + 1 + count)
                 if weapon.equip:
                     terminal.put(23 + len(weapon.name), start + 1 +count, 'e')
@@ -216,7 +209,9 @@ class Inventory():
         terminal.printf(24, start, "Снаряжение")
         if len(armors) > 0:
             for count, armor in enumerate(armors):
+                terminal.color(color[armor.rang])
                 terminal.printf(22, start + 1 + count, armor.name)
+                terminal.color(color["white"])
                 item_coord.append(start + 1 + count)
                 if armor.equip:
                     terminal.put(23 + len(armor.name), start + 1 +count, 'e')

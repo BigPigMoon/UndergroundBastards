@@ -65,6 +65,9 @@ def key_event(player, levels, level_n):
             item_show = True
             table_show = True
 
+    if readkey == terminal.TK_O and item_show:
+        player.inventory.get_info_item(item_count)
+
     if readkey == terminal.TK_D:
         # Дроп предметов только если в инвентаре.
         if item_show:
