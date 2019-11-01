@@ -20,6 +20,7 @@ class Inventory():
         self.backpack = None
 
     def equip_item(self, count_item):
+        """На/о деть или использовать."""
         try:
             item = self.items[count_item]
             if type(item) == Weapon:
@@ -67,6 +68,10 @@ class Inventory():
                         item.equip = True
             elif type(item) == BackPack:
                 pass
+            elif type(item) == Food:
+                self.player.eat(item)
+                self.items.remove(item)
+                self.sum_weight -= item.weight
             else:
                 return
         except IndexError:

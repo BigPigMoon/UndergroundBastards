@@ -51,8 +51,8 @@ class Food(Item):
     """Класс еды."""
     def __init__(self, weight, saturability, decay, char, name):
         super().__init__(weight, char, name)
-        self.saturability = saturability
-        self.decay = decay
+        self.saturability = saturability # насыщаемость
+        self.decay = decay # скорость гниения
 
 
 class Potion(Item):
@@ -70,14 +70,14 @@ class BackPack(Item):
 def get_persent(rang):
     persent = 0
     if rang == "middle":
-        persent = 10
+        persent = 5
     elif rang == "rare":
-        persent = 20
+        persent = 10
     elif rang == "elite":
-        persent = 30
+        persent = 20
     elif rang == "epic":
         persent = 40
     elif rang == "legendary":
-        persent = 50
+        persent = 60
 
     return persent

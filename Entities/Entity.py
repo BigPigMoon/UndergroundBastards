@@ -30,16 +30,16 @@ class Entity():
         """Двигает существо в зависимости от направления."""
         level = levels[level_n].level
         if direct == "up":
-            if not level[self.x - 15][self.y - 1].block:
+            # if not level[self.x - 15][self.y - 1].block:
                 self.y -= 1
         if direct == "down":
-            if not level[self.x - 15][self.y + 1].block:
+            # if not level[self.x - 15][self.y + 1].block:
                 self.y += 1
         if direct == "left":
-            if not level[self.x - 16][self.y].block:
+            # if not level[self.x - 16][self.y].block:
                 self.x -= 1
         if direct == "right":
-            if not level[self.x - 14][self.y].block:
+            # if not level[self.x - 14][self.y].block:
                 self.x += 1
 
     def is_exit(self, level):

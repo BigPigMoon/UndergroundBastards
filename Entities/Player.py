@@ -47,6 +47,10 @@ class Player(Entity):
 
         terminal.color(color["white"])
 
+    def eat(self, food):
+        self.nutrition += food.saturability
+        if self.nutrition > 100:
+            self.nutraiton = 100
 
     def move(self, direct, levels, level_n):
         """Передвижение игрока и проверка предветов."""

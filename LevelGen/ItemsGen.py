@@ -6,7 +6,6 @@ from Items.Items import Weapon, Potion, Armor, Food
 rangs = [
             "simple", "simple", "simple", "simple", "simple", 
             "simple", "simple", "simple", "simple", "simple",
-            "simple", "simple", "simple", "simple", "simple",
             "middle", "middle", "middle", "middle", "middle",
             "rare", "rare", "rare", "rare",
             "elite", "elite", "elite",
@@ -23,7 +22,7 @@ def item_gen(levels):
             room = random.choice(level.rooms)
             level.rooms.remove(room)
             x, y = room.get_random()
-            item = Food(5, 100, 100, 'S', "Сосиски")
+            item = Food(1, 100, 100, 'S', "Сосиски")
             level.level[x][y].item_on_me.append(item)
         # Armor gen
         for _ in range(random.randint(0, 3)):
@@ -49,5 +48,5 @@ def item_gen(levels):
             room = random.choice(level.rooms)
             level.rooms.remove(room)
             x, y = room.get_random()
-            item = Potion(5, 'O', "Красное зелье")
+            item = Potion(1, 'O', "Красное зелье")
             level.level[x][y].item_on_me.append(item)

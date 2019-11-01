@@ -53,6 +53,10 @@ def main():
         if player.nutrition <= 0 or player.hp <= 0:
             terminal.clear()
             terminal.printf(33, 25, "YOU ARE DETH!")
+        
+        if level_n > 26:
+            terminal.clear()
+            terminal.printf(33, 25, "YOU ARE WIN!!")
 
         if player.is_exit(levels[level_n]):
             level_n += 1
