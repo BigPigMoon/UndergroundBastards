@@ -33,9 +33,9 @@ class Player(Entity):
             nutration_max = 10
 
         terminal.clear_area(2, 3, 10, 1)
-        for x in range(2, 12):
+        for x in range(hp_max):
             terminal.color(color["healf"])
-            terminal.put(x, 3, chars["block"])
+            terminal.put(x + 2, 3, chars["block"])
 
         terminal.clear_area(2, 5, 10, 1)
         for x in range(nutration_max):
@@ -78,3 +78,4 @@ class Player(Entity):
             terminal.clear()
             draw_all(self, levels, level_n)
             self.xp += 10
+            levels[level_n].monsters.remove(other)

@@ -42,6 +42,7 @@ def key_event(player, levels, level_n):
             if not player.block_move:
                 player.move("left", levels, level_n)
             return True
+
     if readkey == terminal.TK_L or readkey == terminal.TK_RIGHT:
         # Right
         if not table_show:

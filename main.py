@@ -19,25 +19,29 @@ def init():
 def main():
     init()
 
+
     level_n = 0
     level = GenLevel.create_level()
     levels = [level]
     for i in range(26):
         levels.append(GenLevel.create_level(*levels[i].end.get_center()))
 
-    ItemsGen.item_gen(levels)
-    MonstersGen.monster_gen(levels)
-
     player = Player.Player(*level.start.get_center())
     player.x += 15
     player.name = "BigPigMoon"
     count_celler = 0
+
+    ItemsGen.item_gen(levels)
+    MonstersGen.monster_gen(levels, player)
+
 
     pt.draw_all(player, levels, level_n)
 
     pt.print_status("Здравствуй, путник. Это возможно твое первое путешествие,"
                     + "советую ознакомиться с мануалом.")
     player.draw()
+    for monster in levels[level_n].monsters:
+        monster.draw()
 
     while True:
         # Ход игрока
@@ -49,14 +53,17 @@ def main():
                     player.draw()
                     count_celler += 1
                     player.nutrition -= 0.2
+                    # Ход врагов
+                    for monster in levels[level_n].monsters:
+                        monster.clear()
+                        res, _ = monster.move(AI.random_move(), levels, level_n)
+                        if res == "fight":
+                            print("he atack")
+                            player.hp -= monster.damage
+                            player.draw_status()
+                        monster.draw()
             except TypeError:
                 player.draw()
-
-            # Ход врагов
-            for monster in levels[level_n].monsters:
-                monster.clear()
-                monster.move(AI.random_move(), levels, level_n)
-                monster.draw()
 
         if player.nutrition <= 0 or player.hp <= 0:
             terminal.clear()

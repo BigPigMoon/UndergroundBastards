@@ -4,11 +4,12 @@ from Entities.Monster import Monster
 
 
 monsters = [
-    [4, "Летучая мышь", "B"],
-    [10, "Куколд", "K"]
+    # healf, damage, name, char
+    [4, 5, "Летучая мышь", "B"],
+    [10, 5, "Куколд", "K"]
 ]
 
-def monster_gen(levels):
+def monster_gen(levels, player):
     for level in levels:
         for _ in range(random.randint(5, 25)):
             fail = False
@@ -18,7 +19,8 @@ def monster_gen(levels):
                 if len(level.level[x][y].who_on_me) == 0:
                     monster_args = random.choice(monsters)
                     monster = Monster(*monster_args)
-                    monster.set_coords(x, y)
+                    monster.set_coords(x + 15, y)
+                    monster.player = player
                     level.level[x][y].who_on_me.append(monster)
                     level.monsters.append(monster)
                     fail = True
