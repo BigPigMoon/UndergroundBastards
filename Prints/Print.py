@@ -84,10 +84,12 @@ def print_level(levels, level_n):
             terminal.layer(2)
             terminal.bkcolor(color["flor"])
             if len(level[x][y].item_on_me) > 0:
-                # TODO Не порядок. надо будет в классах предметов покапатся.
-                # И выдавать каждому символ, а потом принтить последний.
                 for item in level[x][y].item_on_me:
                     terminal.put(dx, dy, item.char)
+            
+            if len(level[x][y].who_on_me) > 0:
+                for monster in level[x][y].who_on_me:
+                    terminal.put(dx, dy, monster.char)
             dx += 1
         dx = 15
         dy += 1

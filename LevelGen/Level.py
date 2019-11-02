@@ -5,3 +5,4 @@ class Level():
         self.start = start
         self.end = end
         self.rooms = rooms
+        self.monsters = []

@@ -9,7 +9,9 @@ from Prints.Print import draw_all
 class Player(Entity):
     """Класс игрока."""
     def __init__(self, start_x, start_y):
-        Entity.__init__(self, start_x, start_y)
+        Entity.__init__(self)
+        self.x = start_x
+        self.y = start_y
         self.nutrition = 100
         self.xp = 0
         self.gold = 100
@@ -55,7 +57,10 @@ class Player(Entity):
     def move(self, direct, levels, level_n):
         """Передвижение игрока и проверка предветов."""
         # TODO В далеком будушем надо будет либо оставить и дописывать либо убирать
-        super().move(direct, levels, level_n)
+        move_result, tile = super().move(direct, levels, level_n)
+        if move_result == "fight":
+            print(move_result)
+            self.fight(tile, levels, level_n)
         level = levels[level_n].level
         if len(level[self.x - 15][self.y].item_on_me) > 0:
             for item in level[self.x - 15][self.y].item_on_me:
@@ -63,3 +68,13 @@ class Player(Entity):
             level[self.x - 15][self.y].item_on_me = []
             terminal.clear()
             draw_all(self, levels, level_n)
+
+    def fight(self, tile, levels, level_n):
+        other = tile.who_on_me[0]
+        other.hp -= self.damage
+        print(f"{other.hp=}")
+        if other.hp <= 0:
+            tile.who_on_me.remove(other)
+            terminal.clear()
+            draw_all(self, levels, level_n)
+            self.xp += 10

@@ -3,9 +3,9 @@ import random
 
 from bearlibterminal import terminal
 
-from Entities import Player
+from Entities import Player, AI
 import KeyFunc as kf
-from LevelGen import GenLevel, ItemsGen
+from LevelGen import GenLevel, ItemsGen, MonstersGen
 from Prints import Print as pt
 from Items import Items
 
@@ -26,6 +26,7 @@ def main():
         levels.append(GenLevel.create_level(*levels[i].end.get_center()))
 
     ItemsGen.item_gen(levels)
+    MonstersGen.monster_gen(levels)
 
     player = Player.Player(*level.start.get_center())
     player.x += 15
@@ -39,6 +40,7 @@ def main():
     player.draw()
 
     while True:
+        # Ход игрока
         player.draw_status()
         if terminal.has_input():
             player.clear()
@@ -49,6 +51,12 @@ def main():
                     player.nutrition -= 0.2
             except TypeError:
                 player.draw()
+
+            # Ход врагов
+            for monster in levels[level_n].monsters:
+                monster.clear()
+                monster.move(AI.random_move(), levels, level_n)
+                monster.draw()
 
         if player.nutrition <= 0 or player.hp <= 0:
             terminal.clear()

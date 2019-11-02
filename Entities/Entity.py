@@ -3,12 +3,12 @@ from bearlibterminal import terminal
 from Objects.Color import color
 
 class Entity():
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self):
+        self.x = 0
+        self.y = 0
         self.name = ""
         self.hp = 100
-        self.bkcolor = self.bkcolor = terminal.pick_bkcolor(self.x, self.y)
+        self.bkcolor = terminal.pick_bkcolor(self.x, self.y)
         self.char = ""
         self.layer_draw = 0
 
@@ -30,17 +30,30 @@ class Entity():
         """Двигает существо в зависимости от направления."""
         level = levels[level_n].level
         if direct == "up":
-            # if not level[self.x - 15][self.y - 1].block:
+            tile = level[self.x - 15][self.y - 1]
+            if len(tile.who_on_me) > 0:
+                return "fight", tile
+            elif not tile.block:
                 self.y -= 1
         if direct == "down":
-            # if not level[self.x - 15][self.y + 1].block:
+            tile = level[self.x - 15][self.y + 1]
+            if len(tile.who_on_me) > 0:
+                return "fight", tile
+            elif not tile.block:
                 self.y += 1
         if direct == "left":
-            # if not level[self.x - 16][self.y].block:
+            tile = level[self.x - 16][self.y]
+            if len(tile.who_on_me) > 0:
+                return "fight", tile
+            elif not tile.block:
                 self.x -= 1
         if direct == "right":
-            # if not level[self.x - 14][self.y].block:
+            tile = level[self.x - 14][self.y]
+            if len(tile.who_on_me) > 0:
+                return "fight", tile
+            elif not tile.block:
                 self.x += 1
+        return None, None
 
     def is_exit(self, level):
         """Если игрок стоит на клетки выхода вернет True."""
