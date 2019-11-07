@@ -10,7 +10,7 @@ help_show = False
 table_show = False
 item_count = 0
 
-def key_event(player, levels, level_n):
+def key_event(player, monsters, levels, level_n):
     """Обработка клавиш."""
     global item_show, help_show, table_show, item_count
 
@@ -56,11 +56,13 @@ def key_event(player, levels, level_n):
 
     if readkey == terminal.TK_I:
         if item_show:
-            draw_all(player, levels, level_n)
+            draw_all(player, levels[level_n].monsters, levels, level_n)
             item_show = False
             table_show = False
             item_show = False
             item_count = 0
+            for monster in monsters:
+                monster.draw()
         else:
             player.inventory.show_items()
             item_show = True
@@ -82,7 +84,7 @@ def key_event(player, levels, level_n):
 
     if readkey == terminal.TK_F1:
         if help_show:
-            draw_all(player, levels, level_n)
+            draw_all(player, levels[level_n].monsters, levels, level_n)
             help_show = False
             table_show = False
             item_show = False
@@ -99,7 +101,7 @@ def key_event(player, levels, level_n):
             sys.exit()
             return True
         if table_show:
-            draw_all(player, levels, level_n)
+            draw_all(player, levels[level_n].monsters, levels, level_n)
             help_show = False
             table_show = False
             item_show = False
@@ -108,5 +110,5 @@ def key_event(player, levels, level_n):
         sys.exit()
         return True
 
-    if not table_show:
-        return True
+    # if not table_show:
+    #     return True

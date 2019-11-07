@@ -57,25 +57,58 @@ class Player(Entity):
     def move(self, direct, levels, level_n):
         """Передвижение игрока и проверка предветов."""
         # TODO В далеком будушем надо будет либо оставить и дописывать либо убирать
-        move_result, tile = super().move(direct, levels, level_n)
-        if move_result == "fight":
-            print(move_result)
-            self.fight(tile, levels, level_n)
+        """Двигает существо в зависимости от направления."""
+        level = levels[level_n].level
+        try:
+            level[self.x - 15][self.y].who_on_me.remove(self)
+        except ValueError:
+            pass
+
+        if direct == "up":
+            tile = level[self.x - 15][self.y - 1]
+            if len(tile.who_on_me) > 0:
+                self.fight(tile, levels, level_n)
+            elif not tile.block:
+                self.y -= 1
+
+        if direct == "down":
+            tile = level[self.x - 15][self.y + 1]
+            if len(tile.who_on_me) > 0:
+                self.fight(tile, levels, level_n)
+            elif not tile.block:
+                self.y += 1
+
+        if direct == "left":
+            tile = level[self.x - 16][self.y]
+            if len(tile.who_on_me) > 0:
+                self.fight(tile, levels, level_n)
+            elif not tile.block:
+                self.x -= 1
+
+        if direct == "right":
+            tile = level[self.x - 14][self.y]
+            if len(tile.who_on_me) > 0:
+                self.fight(tile, levels, level_n)
+            elif not tile.block:
+                self.x += 1
+
+        level[self.x - 15][self.y].who_on_me.append(self)
+
         level = levels[level_n].level
         if len(level[self.x - 15][self.y].item_on_me) > 0:
             for item in level[self.x - 15][self.y].item_on_me:
                 self.inventory.add_item(item)
-            level[self.x - 15][self.y].item_on_me = []
+                level[self.x - 15][self.y].item_on_me.remove(item)
             terminal.clear()
-            draw_all(self, levels, level_n)
+            draw_all(self, levels[level_n].monsters, levels, level_n)
 
     def fight(self, tile, levels, level_n):
         other = tile.who_on_me[0]
         other.hp -= self.damage
-        print(f"{other.hp=}")
         if other.hp <= 0:
+            other.clear()
             tile.who_on_me.remove(other)
-            terminal.clear()
-            draw_all(self, levels, level_n)
-            self.xp += 10
             levels[level_n].monsters.remove(other)
+            terminal.clear()
+            draw_all(self, levels[level_n].monsters, levels, level_n)
+            self.xp += 10

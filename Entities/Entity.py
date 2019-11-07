@@ -36,34 +36,25 @@ class Entity():
 
         if direct == "up":
             tile = level[self.x - 15][self.y - 1]
-            if len(tile.who_on_me) > 0:
-                return "fight", tile
-            elif not tile.block:
+            if not tile.block:
                 self.y -= 1
 
         if direct == "down":
             tile = level[self.x - 15][self.y + 1]
-            if len(tile.who_on_me) > 0:
-                return "fight", tile
-            elif not tile.block:
+            if not tile.block:
                 self.y += 1
 
         if direct == "left":
             tile = level[self.x - 16][self.y]
-            if len(tile.who_on_me) > 0:
-                return "fight", tile
-            elif not tile.block:
+            if not tile.block:
                 self.x -= 1
 
         if direct == "right":
             tile = level[self.x - 14][self.y]
-            if len(tile.who_on_me) > 0:
-                return "fight", tile
-            elif not tile.block:
+            if not tile.block:
                 self.x += 1
 
         level[self.x - 15][self.y].who_on_me.append(self)
-        return None, None
 
     def is_exit(self, level):
         """Если игрок стоит на клетки выхода вернет True."""

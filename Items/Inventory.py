@@ -76,7 +76,6 @@ class Inventory():
                 return
         except IndexError:
             pass
-        print(f"{self.player.protection=}, {self.player.damage=}")
 
     def unequip_item(self, item):
         if type(item) == Weapon:

@@ -3,4 +3,7 @@ import random
 
 def random_move():
     direct = ("up", "down", "left", "right")
-    return random.choice(direct)
+    if random.randint(0, 1):
+        return random.choice(direct)
+    else:
+        None

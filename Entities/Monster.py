@@ -25,37 +25,46 @@ class Monster(Entity):
         if direct == "up":
             tile = level[self.x - 15][self.y - 1]
             if len(tile.who_on_me) > 0:
-                if tile.who_on_me[0] == self.player:
-                    return "fight", tile
+                for on_tile in tile.who_on_me:
+                    if on_tile == self.player:
+                        self.fight()
             elif not tile.block:
                 self.y -= 1
 
         if direct == "down":
             tile = level[self.x - 15][self.y + 1]
             if len(tile.who_on_me) > 0:
-                if tile.who_on_me[0] == self.player:
-                    return "fight", tile
+                for on_tile in tile.who_on_me:
+                    if on_tile == self.player:
+                        self.fight()
             elif not tile.block:
                 self.y += 1
 
         if direct == "left":
             tile = level[self.x - 16][self.y]
             if len(tile.who_on_me) > 0:
-                if tile.who_on_me[0] == self.player:
-                    return "fight", tile
+                for on_tile in tile.who_on_me:
+                    if on_tile == self.player:
+                        self.fight()
             elif not tile.block:
                 self.x -= 1
 
         if direct == "right":
             tile = level[self.x - 14][self.y]
             if len(tile.who_on_me) > 0:
-                if tile.who_on_me[0] == self.player:
-                    return "fight", tile
+                for on_tile in tile.who_on_me:
+                    if on_tile == self.player:
+                        self.fight()
             elif not tile.block:
                 self.x += 1
 
         level[self.x - 15][self.y].who_on_me.append(self)
-        return None, None
+        if self.is_exit(levels[level_n]) or self.is_start(levels[level_n]):
+            self.push_out_player(levels, level_n)
+    
+    def fight(self):
+        print("he atack!!!")
+        self.player.hp -= self.damage
 
     def creal(self):
         super().clear()

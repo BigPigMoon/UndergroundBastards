@@ -26,7 +26,7 @@ def clear_center(player):
         terminal.put(i, 44, chars["full_block"])
 
 
-def draw_all(player, levels, level_n):
+def draw_all(player, monsters, levels, level_n):
     """Рисует все что здесь есть."""
     print_hud(player)
     terminal.printf(10, 49, str(level_n + 1))
@@ -34,6 +34,8 @@ def draw_all(player, levels, level_n):
     player.draw()
     print_level(levels, level_n)
     print_status()
+    for monster in monsters:
+        monster.draw()
 
 
 def print_status(status_string=None, history=[]):
