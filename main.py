@@ -9,12 +9,14 @@ from LevelGen import GenLevel, ItemsGen, MonstersGen
 from Prints import Print as pt
 from Items import Items
 import MapToGraph as mtg
+import pathfinding as pf
 
 
 def init():
     terminal.open()
     terminal.refresh()
     terminal.set('GameSettings.ini')
+    random.seed(666)
 
 
 def main():
@@ -30,11 +32,11 @@ def main():
     for lel in levels:
         level_graphs.append(mtg.map_to_graph(lel.level))
     
-    for k in level_graphs[0].keys():
-        print(f"{k} is ", end="")
-        for val in level_graphs[0][k]:
-            print(val, end=", ")
-        print()
+    # for k in level_graphs[0].keys():
+    #     print(f"{k} is ", end="")
+    #     for val in level_graphs[0][k]:
+    #         print(val, end=", ")
+    #     print()
 
     player = Player.Player(*level.start.get_center())
     player.x += 15
@@ -67,6 +69,10 @@ def main():
             except TypeError:
                 terminal.clear()
                 pt.draw_all(player, levels[level_n].monsters, levels, level_n)
+            print(f"player id {levels[level_n].level[player.x-15][player.y].id}")
+            print(f"monster id {levels[level_n].level[levels[level_n].monsters[0].x-15][levels[level_n].monsters[0].y].id}")
+            print(f"path = {pf.wave_path(levels[level_n].level[player.x - 15][player.y].id, levels[level_n].level[levels[level_n].monsters[0].x - 15][levels[level_n].monsters[0].y].id, level_graphs[level_n])}")
+            print(f"player id {levels[level_n].level[player.x-15][player.y].id}")
 
         if count_celler < 1:
             for monster in levels[level_n].monsters:

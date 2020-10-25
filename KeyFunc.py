@@ -72,7 +72,6 @@ def key_event(player, monsters, levels, level_n):
         player.inventory.get_info_item(item_count)
 
     if readkey == terminal.TK_D:
-        # Дроп предметов только если в инвентаре.
         if item_show:
             player.inventory.drop_item(item_count, levels, level_n)
             player.inventory.show_items(item_count)
@@ -96,7 +95,7 @@ def key_event(player, monsters, levels, level_n):
             table_show = True
             item_count = 0
 
-    if readkey == terminal.TK_ESCAPE:
+    if readkey == terminal.TK_ESCAPE or readkey == terminal.TK_Q:
         if not table_show:
             sys.exit()
             return True
