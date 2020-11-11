@@ -17,5 +17,5 @@ http://foo.wyrd.name/ru:bearlibterminal
 1. Скачиваете проект
 2. Распаковываете в удобное для вас место
 3. Скачиваете python (подойдет любая версия, если у вас MacOS или Linux, у вас уже есть python)
-4. Открываете консоль и пишете python main.py
+4. Открываете консоль и пишете python main.py или python3 main.py
 5. Всё!
